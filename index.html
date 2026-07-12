@@ -543,9 +543,9 @@
       <!-- [신살 분석 섹션 추가 시작] -->
       <div class="card">
         <h2>신살 분석</h2>
-        <p class="section-sub">천을귀인·도화살처럼 사주에서 자주 언급되는 신살들을 확인해봤어요. 제목을 누르면 자세한 설명이 펼쳐져요.</p>
+        <p class="section-sub">천을귀인·도화살처럼 사주에서 자주 언급되는 신살 중, 이 사주에 실제로 있는 것만 골라서 보여드려요. 제목을 누르면 자세한 설명이 펼쳐져요.</p>
         <div id="sinsalList"></div>
-        <div class="disclaimer" style="margin-top:0;">신살은 참고용 보조 지표예요. "일반적으로 이렇게 본다"는 관점이고, 문헌·학파에 따라 기준이 다를 수 있어요. 규칙이 아직 확정되지 않은 항목은 억지로 판정하지 않고 '판정 보류'로 표시했어요.</div>
+        <div class="disclaimer" style="margin-top:0;">신살은 참고용 보조 지표예요. "일반적으로 이렇게 본다"는 관점이고, 문헌·학파에 따라 기준이 다를 수 있어요.</div>
       </div>
       <!-- [신살 분석 섹션 추가 끝] -->
 
@@ -851,13 +851,6 @@ function checkDohwa(saju){
   return { found: positions.length>0, positions, note:null };
 }
 
-// 산방귀물(?): 문헌마다 기준이 달라 아직 표준 규칙을 확정하지 못했어요.
-// → 억지로 판정하지 않고 "사용자 정의 규칙 필요" 상태를 그대로 반환해요.
-// 나중에 규칙이 정해지면 이 함수 안만 채우면 되고, 아래 SINSAL_RULES 쪽은 안 건드려도 돼요.
-function checkSanbang(saju, dayStemI){
-  return { found:null, positions:[], note:'문헌마다 기준이 달라 아직 규칙을 정하지 못했어요. 확인되면 업데이트할게요.' };
-}
-
 /* ---- ③ 화면 표시용 메타데이터 (이름, 짧은 설명, 자세한 설명, 상태) ----
    status: 'active'   → 실제 규칙으로 판정함
            'placeholder' → 규칙 미확정, 화면에 "사용자 정의 규칙 필요"로 표시 */
@@ -878,43 +871,36 @@ const SINSAL_RULES = [
     detail:'도화살은 흔히 "인기가 많다", "매력적이다"는 의미로 알려져 있지만, 동시에 애정 관계에서 기복이나 유혹이 많을 수 있다는 뜻도 함께 지니고 있어요. 이 앱에서는 12신살 계산에서 쓰는 년살(年殺)과 같은 자리로 보고 판정했어요 (연지 기준 삼합표). 좋은 의미와 주의할 의미를 동시에 지닌 신살이라, 한쪽으로만 해석하지 않는 게 일반적이에요.',
     check: checkDohwa
   },
-  {
-    key:'sanbang',
-    name:'산방귀물(産房貴物) — 확인 필요',
-    status:'placeholder',
-    shortDesc:'문헌마다 기준이 달라 아직 규칙을 확정하지 못했어요.',
-    detail:'산방귀물은 명리학 문헌들 사이에서도 명칭·기준이 통일되어 있지 않은 것으로 확인돼요. 잘못된 규칙을 억지로 넣어드리기보다, 정확한 기준을 확인한 뒤 업데이트하는 쪽이 맞다고 판단했어요. 혹시 원하시는 기준(예: 특정 문헌의 표)이 있으면 알려주시면 그 기준으로 바로 넣어드릴 수 있어요.',
-    check: checkSanbang
-  },
   // ↓↓↓ 신살을 더 추가하려면, 이 자리에 위와 같은 형식으로 객체 하나만 추가하면 돼요.
-  // { key:'...', name:'...', status:'active'|'placeholder', shortDesc:'...', detail:'...', check: 판정함수 }
+  // { key:'...', name:'...', status:'active', shortDesc:'...', detail:'...', check: 판정함수 }
 ];
 
-/* ---- ④ 화면 렌더링 (판정 로직과 완전히 분리) ---- */
+/* ---- ④ 화면 렌더링 (판정 로직과 완전히 분리) ----
+   사주에 실제로 없는 신살은 목록에서 아예 빼고, "있음"으로 확인된 것만 보여드려요. */
 function renderSinsal(saju, dayStemI){
   const container = document.getElementById('sinsalList');
   if(!container) return;
-  const html = SINSAL_RULES.map(rule=>{
-    const result = rule.check(saju, dayStemI);
-    let statusBadge, statusClass;
-    if(result.found === null){ statusBadge = '판정 보류'; statusClass = 'sinsal-unknown'; }
-    else if(result.found){ statusBadge = '있음'; statusClass = 'sinsal-yes'; }
-    else { statusBadge = '없음'; statusClass = 'sinsal-no'; }
+  const present = SINSAL_RULES
+    .map(rule => ({ rule, result: rule.check(saju, dayStemI) }))
+    .filter(({result}) => result.found === true);
 
-    const posText = result.positions.length
-      ? result.positions.map(p=>`${p.label}(${p.char})`).join(', ')
-      : (result.found===null ? '사용자 정의 규칙 필요' : '해당 없음');
+  if(present.length === 0){
+    container.innerHTML = `<p style="font-size:13.5px; color:var(--ink-soft); line-height:1.7;">이 사주에는 따로 짚어드릴 만한 신살이 보이지 않네요. 신살이 없다고 아쉬워하실 것 없어요, 오히려 무난하고 평탄하게 흘러가는 사주로 봐도 좋아요.</p>`;
+    return;
+  }
 
+  const html = present.map(({rule, result})=>{
+    const posText = result.positions.map(p=>`${p.label}(${p.char})`).join(', ');
     return `
       <details class="sinsal-card">
         <summary>
           <span class="sinsal-name">${rule.name}</span>
-          <span class="sinsal-badge ${statusClass}">${statusBadge}</span>
+          <span class="sinsal-badge sinsal-yes">있음</span>
         </summary>
         <div class="sinsal-body">
           <div class="sinsal-row"><span class="sinsal-row-label">기준 글자·위치</span><span>${posText}</span></div>
           <div class="sinsal-row"><span class="sinsal-row-label">한 줄 설명</span><span>${rule.shortDesc}</span></div>
-          <p class="sinsal-detail">${result.note ? result.note : rule.detail}</p>
+          <p class="sinsal-detail">${rule.detail}</p>
         </div>
       </details>`;
   }).join('');

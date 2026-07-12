@@ -241,6 +241,23 @@
   details.luck-accordion[open] summary:after{content:'▴';}
   details.luck-accordion .luck-body{padding-bottom:14px; font-size:13.5px; line-height:1.7;}
 
+  /* ---- 사주해설 서사형 아코디언 ---- */
+  details.story-accordion{
+    background:#fffaf6; border:2px solid var(--line); border-radius:18px; padding:0 20px; margin-bottom:14px;
+  }
+  details.story-accordion summary{
+    padding:18px 0; cursor:pointer; list-style:none; display:flex; align-items:flex-start; gap:10px;
+  }
+  details.story-accordion summary::-webkit-details-marker{display:none;}
+  details.story-accordion summary .story-chevron{margin-left:auto; color:var(--ink-soft); flex-shrink:0; padding-top:3px; display:inline-block; transition:transform .2s ease;}
+  details.story-accordion[open] summary .story-chevron{transform:rotate(180deg);}
+  details.story-accordion summary .story-title{font-family:'Do Hyeon',sans-serif; font-size:18px; color:var(--pink-deep); line-height:1.4;}
+  details.story-accordion summary .story-spark{font-size:20px; flex-shrink:0;}
+  .story-hint{font-size:12px; color:var(--ink-soft); text-align:center; margin:-4px 0 14px;}
+  .story-body{padding-bottom:20px; font-size:14.5px; line-height:1.9; color:#43384f;}
+  .story-body p{margin:0 0 16px;}
+  .story-body p:last-child{margin-bottom:0;}
+
   /* ---- fortune grid ---- */
   .fortune-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
   @media (max-width:520px){.fortune-grid{grid-template-columns:1fr;}}
@@ -337,6 +354,12 @@
 
       <form id="entryForm">
         <div class="field-row">
+          <div class="field" style="flex:0 0 100%;">
+            <label for="userNameInput">이름 (선택, 넣으시면 결과에서 이름으로 불러드려요)</label>
+            <input type="text" id="userNameInput" placeholder="예: 지민" maxlength="12">
+          </div>
+        </div>
+        <div class="field-row">
           <div class="field">
             <label for="birthDate">생년월일 (양력)</label>
             <input type="date" id="birthDate" required min="1920-01-01" max="2026-12-31">
@@ -412,6 +435,8 @@
         <h2>당신을 대표하는 일간</h2>
         <p class="section-sub">사주의 중심이 되는 글자를 찾아드렸어요. 나머지 일곱 글자는 이 글자와의 관계로 읽어드릴게요.</p>
         <div class="master-card" id="masterCard"></div>
+        <p class="story-hint">✨ 제목을 클릭하면 상세 해설이 펼쳐져요</p>
+        <div id="storyBox"></div>
       </div>
 
       <div class="card">
@@ -471,7 +496,9 @@
       </div>
       <div class="card">
         <h2>월운 (올해 12개월)</h2>
-        <p class="section-sub">이번 해, 달마다의 흐름을 짚어드릴게요.</p>
+        <p class="section-sub">이번 해, 달마다의 흐름과 연애운·직장운 타이밍을 짚어드릴게요.</p>
+        <div id="wolyunHighlight" style="margin-bottom:16px;"></div>
+        <div class="disclaimer" style="margin-top:0;">연애운·직장운 점수는 각 달의 십성(정관·재성·식상 등)을 기준으로 만든 참고용 지표예요. 실제 이직·연애 결정은 여러 요인을 함께 고려해주세요.</div>
         <div id="wolyunList"></div>
       </div>
     </div>
@@ -865,6 +892,18 @@ const RELATION_TF={
   a_beats_b:{t:"외부 변수의 간섭이 큰 날이라, 중요한 결정은 하루 미루는 게 리스크 관리 측면에서 나아요.",f:"오늘 유난히 힘든 것 같아도, 당신 잘못이 아니에요. 그냥 파도가 좀 센 날인 거예요."},
   b_beats_a:{t:"당신이 주도권을 쥐기 유리한 구조라, 결단이 필요한 일은 오늘 진행하는 게 효율적이에요.",f:"오늘은 당신이 이끌어도 되는 날이에요. 눈치 보지 말고 원하는 대로 해보세요."}
 };
+const JOB_LUCK_BY_TENGOD={
+  정관:{score:82, note:"조직 안에서 안정적으로 인정받기 좋은 시기예요. 승진이나 좋은 평가를 기대해볼 만해요."},
+  편관:{score:66, note:"책임이 늘거나 도전적인 과제가 주어질 수 있는 시기예요. 부담스러울 수 있지만 성장의 발판이 되기도 해요."},
+  정재:{score:75, note:"꾸준히 쌓아온 노력이 눈에 보이는 성과로 이어지기 좋은 시기예요."},
+  편재:{score:70, note:"예상치 못한 수입이나 기회가 들어올 수 있는 시기예요."},
+  식신:{score:64, note:"새로운 아이디어나 프로젝트를 벌이기 좋은 시기예요."},
+  상관:{score:56, note:"조직과 마찰이 생기거나 이직 고민이 스멀스멀 올라오기 쉬운 시기예요. 큰 결정은 조금 더 신중하게 내리는 게 좋아요."},
+  정인:{score:73, note:"배움이나 자격증 취득, 좋은 사람의 도움을 받기 좋은 시기예요."},
+  편인:{score:60, note:"혼자 조용히 준비하거나 방향을 재정비하기 좋은 시기예요."},
+  비견:{score:54, note:"동료·경쟁자와의 관계가 유난히 부각되는 시기예요."},
+  겁재:{score:46, note:"예상치 못한 지출이나 경쟁에서 오는 스트레스를 조심할 시기예요."}
+};
 const LUCK_HEADLINE={
   목:"숨 쉴 구멍이 없는 빽빽한 빌딩 숲, '나무'가 절실해요",
   화:"빛도 온기도 부족한 겨울 방, '햇살'이 필요해요",
@@ -1020,7 +1059,7 @@ function analyzeCompat(sajuA,sajuB){
 function renderSummary(saju,dayStemI,dayMasterElem,strengthRes,structureItems){
   const info = DAY_MASTER_TEXT[STEMS[dayStemI]];
   const topStruct = structureItems.find(s=>s.ok);
-  let text = `<strong>${info.title.split(' · ')[0]}</strong>, ${strengthRes.verdict.split('(')[0]} 사주시네요.`;
+  let text = `${nm()}, <strong>${info.title.split(' · ')[0]}</strong>, ${strengthRes.verdict.split('(')[0]} 사주시네요.`;
   text += ` ${strengthRes.verdictDesc}`;
   if(topStruct) text += ` 특히 <strong>${topStruct.name.split('(')[0]}</strong> 구조가 있어서, ${topStruct.why}`;
   document.getElementById('summaryText').innerHTML = text;
@@ -1059,15 +1098,36 @@ function renderFlow(saju,dayStemI,dayMasterElem,birthDate,gender){
   document.getElementById('seyunList').innerHTML = seyunHtml;
 
   // 월운 (올해)
-  let wolyunHtml='';
+  const monthsData = [];
   for(let m=0;m<12;m++){
     const d = new Date(thisYear,m,15);
     const yp = yearPillar(d);
     const mp = monthPillar(d, yp.stemI);
     const e = STEM_ELEM[mp.stemI];
     const rel = relation(e, dayMasterElem);
-    wolyunHtml += `<div class="relbox"><strong>${m+1}월</strong> · <span class="elemtag-${e}">${STEMS[mp.stemI]}${BRANCHES[mp.branchI]}</span> · ${RELATION_TEXT[rel].label}</div>`;
+    const jobTg = tenGod(dayStemI, mp.stemI);
+    const job = JOB_LUCK_BY_TENGOD[jobTg];
+    monthsData.push({month:m+1, stemI:mp.stemI, branchI:mp.branchI, elem:e, rel, love:RELATION_SCORE[rel].love, money:RELATION_SCORE[rel].money, job});
   }
+  const bestLove = monthsData.reduce((a,b)=>b.love>a.love?b:a, monthsData[0]);
+  const bestMoney = monthsData.reduce((a,b)=>b.money>a.money?b:a, monthsData[0]);
+  const bestJob = monthsData.reduce((a,b)=>b.job.score>a.job.score?b:a, monthsData[0]);
+  const cautionJob = monthsData.reduce((a,b)=>b.job.score<a.job.score?b:a, monthsData[0]);
+
+  document.getElementById('wolyunHighlight').innerHTML = `
+    <div class="relbox">💕 <strong>연애운이 가장 좋은 달</strong> — ${bestLove.month}월 (${bestLove.love}점) · ${RELATION_TEXT[bestLove.rel].love}</div>
+    <div class="relbox">💰 <strong>재물운이 가장 좋은 달</strong> — ${bestMoney.month}월 (${bestMoney.money}점) · ${RELATION_TEXT[bestMoney.rel].money}</div>
+    <div class="relbox">💼 <strong>직장·이직운이 좋은 달</strong> — ${bestJob.month}월 (${bestJob.job.score}점) · ${bestJob.job.note}</div>
+    <div class="relbox">⚠️ <strong>중요한 결정은 신중하게</strong> — ${cautionJob.month}월 (${cautionJob.job.score}점) · ${cautionJob.job.note}</div>
+  `;
+
+  let wolyunHtml='';
+  monthsData.forEach(md=>{
+    wolyunHtml += `<div class="relbox">
+      <strong>${md.month}월</strong> · <span class="elemtag-${md.elem}">${STEMS[md.stemI]}${BRANCHES[md.branchI]}</span> · ${RELATION_TEXT[md.rel].label}<br>
+      <span style="font-size:12.5px;">💕 애정운 ${md.love}점 · 💼 직장운 ${md.job.score}점 — ${md.job.note}</span>
+    </div>`;
+  });
   document.getElementById('wolyunList').innerHTML = wolyunHtml;
 }
 
@@ -1186,20 +1246,89 @@ function renderBalance(saju){
 }
 function renderMaster(saju){
   const stemI=saju.d.stemI; const info=DAY_MASTER_TEXT[STEMS[stemI]]; const elem=STEM_ELEM[stemI];
-  const tf = DAY_MASTER_TF[STEMS[stemI]];
   document.getElementById('masterCard').innerHTML=`
     <div class="master-glyph" style="background:${ELEM_COLOR[elem]};">${STEMS_H[stemI]}</div>
     <div style="flex:1; min-width:200px;">
       <h3 style="color:var(--pink-deep); font-size:18px; margin-bottom:8px;">${info.title}</h3>
       <p style="font-size:14px; line-height:1.7; margin:0;">${info.body}</p>
       <div class="tag-row">${info.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-      ${duoBlock(tf.t, tf.f)}
     </div>`;
   return elem;
 }
-function renderDaily(dayMasterElem){
+function buildStory(name, saju, dayStemI, dayMasterElem, counts, strengthRes, structureItems){
+  const info = DAY_MASTER_TEXT[STEMS[dayStemI]];
+  const metaphor = info.title.split(' · ')[1] || info.title;
+  const dominant = ELEMENTS.reduce((a,b)=>counts[b]>counts[a]?b:a, ELEMENTS[0]);
+  const lacking = pickLuckElements(counts);
+  const isLackZero = counts[lacking[0]]===0;
+  const okStructs = structureItems.filter(s=>s.ok);
+
+  const pillars=[];
+  if(saju.y) pillars.push({label:'연주',stemI:saju.y.stemI,branchI:saju.y.branchI});
+  if(saju.m) pillars.push({label:'월주',stemI:saju.m.stemI,branchI:saju.m.branchI});
+  if(saju.d) pillars.push({label:'일주',stemI:saju.d.stemI,branchI:saju.d.branchI});
+  if(saju.h) pillars.push({label:'시주',stemI:saju.h.stemI,branchI:saju.h.branchI});
+  const combos = analyzeCombos(pillars);
+  const wonjinList = combos.filter(c=>c.type==='원진'||c.type==='형'||c.type==='자형');
+  const goodComboList = combos.filter(c=>c.type==='지지 육합'||c.type==='삼합'||c.type==='반합'||c.type==='천간합');
+
+  let p1 = `<strong>${name}</strong>은 겉으로 보면 ${info.body.split('.')[0]}. 명리학적으로는 일간인 <strong>${info.title.split(' · ')[0]}</strong>가 그 사람의 바탕을 이루는데, ${name}의 경우 이 기운이 '${metaphor}'에 비유될 만큼 ${ELEM_DESC[dayMasterElem]}을 품고 있어요.`;
+
+  let p2 = `사주 여덜 글자를 살펴보면 <strong>${ELEM_NAME[dominant]}</strong> 기운이 ${counts[dominant]}개로 가장 두드러지게 자리잡고 있어요. ${ELEM_DESC[dominant]}이 ${name}의 겉으로 드러나는 인상이나 행동 방식에 강하게 영향을 주고 있다는 뜻이에요.`;
+  if(isLackZero){
+    p2 += ` 반면 <strong>${lacking.map(e=>ELEM_NAME[e]).join(', ')}</strong> 기운은 여덜 글자 안에 전혀 보이지 않아서, 그 기운이 상징하는 흐름(${lacking.map(e=>ELEM_DESC[e]).join(' · ')})을 스스로 의식하고 채워나가려는 노력이 필요할 수 있어요.`;
+  } else {
+    p2 += ` 상대적으로 <strong>${lacking.map(e=>ELEM_NAME[e]).join(', ')}</strong> 기운은 약한 편이라, 이 부분에서 아쉬움이나 갈증을 느끼실 때가 있을 거예요.`;
+  }
+
+  let p3 = `신강신약으로 보면 ${name}은 <strong>${strengthRes.verdict}</strong>에 해당해요. ${strengthRes.verdictDesc}`;
+  if(strengthRes.score<=-3){
+    p3 += ` 그래서 겉으로는 씩씩하고 다 괜찮은 척해도, 혼자 감당하기 버거운 순간에는 주변에 기대는 것을 미안해하지 않으셔도 돼요.`;
+  } else if(strengthRes.score>=3){
+    p3 += ` 스스로 일으키는 힘이 강한 편이라, 남에게 기대기보다 직접 부딫히며 배우는 쪽이 ${name}께는 더 잘 맞을 수 있어요.`;
+  } else {
+    p3 += ` 어느 한쪽으로 크게 기울지 않는 균형감이 ${name}의 숨은 강점이에요.`;
+  }
+
+  let p4 = '';
+  if(okStructs.length){
+    const s = okStructs[0];
+    p4 = `사주 구조를 더 들여다보면, <strong>${s.name.split('(')[0]}</strong> 구조가 자리잡고 있어요. ${s.why}`;
+    if(okStructs.length>1) p4 += ` 여기에 <strong>${okStructs[1].name.split('(')[0]}</strong> 구조까지 함께 있어서, 이 두 흐름이 ${name}의 사주 안에서 서로 영향을 주고받고 있어요.`;
+  }
+  if(wonjinList.length){
+    p4 += ` ${p4?' 또한,':'또한,'} 지지에는 <strong>${wonjinList[0].text.split(' — ')[0]||wonjinList[0].text}</strong> 관계가 있어서, 겉으로 드러나지 않는 미묘한 갈등이나 긴장이 내면에 있을 수 있어요. 이런 긴장은 나쁜 게 아니라, ${name}을 더 섬세하고 신중하게 만들어주는 자극이 되기도 해요.`;
+  } else if(goodComboList.length){
+    p4 += ` ${p4?' 다행히,':'다행히,'} 지지에는 <strong>${goodComboList[0].text.split(' — ')[0]||goodComboList[0].text}</strong> 관계도 있어서, 어딘가 안정적으로 잡아주는 힘도 함께 있어요.`;
+  }
+  if(!p4) p4 = `${name}의 사주는 뚜렷하게 극단적인 구조 없이, 비교적 평이하게 흐르는 편이에요. 오히려 이런 사주일수록 본인의 선택과 노력에 따라 결과가 크게 달라질 수 있어요.`;
+
+  const p5 = `종합하면, ${name}은 ${info.body.split('.').slice(-2).join('.').trim()} 이 양면성은 ${name}의 가장 큰 매력이자 스스로에게 내는 숙제이기도 해요. 남들에게 보이는 모습 뒤에 숨겨진 진짜 마음을 조금씩 드러낼 때, 오히려 주변 사람들은 ${name}에게 더 깊은 신뢰와 매력을 느끼게 될 거예요. 애쓰지 않아도 ${name}은 이미 충분히 괜찮은 사람이라는 걸 잊지 마세요.`;
+
+  return [p1,p2,p3,p4,p5].map(p=>`<p>${p}</p>`).join('');
+}
+function renderStory(name, saju, dayStemI, dayMasterElem, counts, strengthRes, structureItems){
+  const info = DAY_MASTER_TEXT[STEMS[dayStemI]];
+  const metaphor = info.title.split(' · ')[1] || '';
+  const tf = DAY_MASTER_TF[STEMS[dayStemI]];
+  const html = `
+    <details class="story-accordion" open>
+      <summary>
+        <span class="story-spark">✨</span>
+        <span class="story-title">겉바속촉 ${info.tags[0]}, 알고 보면 ${strengthRes.verdict.split('(')[0]} ${metaphor}</span>
+        <span class="story-chevron">▾</span>
+      </summary>
+      <div class="story-body">${buildStory(name, saju, dayStemI, dayMasterElem, counts, strengthRes, structureItems)}</div>
+    </details>
+    ${duoBlock(tf.t, tf.f)}
+  `;
+  document.getElementById('storyBox').innerHTML = html;
+}
+
+function renderDaily(dayMasterElem, dayStemI){
   const today=new Date(); const tp=dayPillar(today);
   const todayElem=STEM_ELEM[tp.stemI]; const rel=relation(todayElem,dayMasterElem); const rt=RELATION_TEXT[rel]; const sc=RELATION_SCORE[rel]; const tf=RELATION_TF[rel];
+  const jobTg = tenGod(dayStemI, tp.stemI); const job = JOB_LUCK_BY_TENGOD[jobTg];
   document.getElementById('todayDateLabel').textContent=`${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일 기준`;
   document.getElementById('todayStrip').innerHTML=`
     <div style="display:flex; align-items:center; gap:12px; background:#fffaf6; border-radius:14px; padding:10px 14px; border:2px solid var(--line);">
@@ -1207,7 +1336,7 @@ function renderDaily(dayMasterElem){
       <div style="font-size:13px; color:var(--ink-soft);">오늘의 일진 · ${STEMS[tp.stemI]}${BRANCHES[tp.branchI]}일 · <strong style="color:var(--pink-deep);">${rt.label}</strong></div>
     </div>
     ${duoBlock(tf.t, tf.f)}`;
-  const items=[{l:'총운',t:rt.total,s:sc.total},{l:'재물운',t:rt.money,s:sc.money},{l:'애정운',t:rt.love,s:sc.love},{l:'건강운',t:rt.health,s:sc.health}];
+  const items=[{l:'총운',t:rt.total,s:sc.total},{l:'재물운',t:rt.money,s:sc.money},{l:'애정운',t:rt.love,s:sc.love},{l:'직장운',t:job.note,s:job.score},{l:'건강운',t:rt.health,s:sc.health}];
   document.getElementById('fortuneGrid').innerHTML=items.map(i=>`<div class="fortune-item"><div class="flabel">${i.l}<span class="score-badge">${i.s}<span class="unit">점</span></span></div><p>${i.t}</p></div>`).join('');
 }
 
@@ -1322,6 +1451,8 @@ document.querySelectorAll('.nav-btn').forEach(btn=>{
 });
 
 let selectedGender = '여자';
+let userName = '';
+function nm(){ return userName && userName.trim() ? userName.trim()+'님' : '당신'; }
 document.getElementById('genderToggle').addEventListener('click', e=>{
   const btn = e.target.closest('.toggle-btn'); if(!btn) return;
   document.querySelectorAll('#genderToggle .toggle-btn').forEach(b=>b.classList.remove('selected'));
@@ -1338,6 +1469,7 @@ document.getElementById('backBtn').addEventListener('click', ()=>{
 
 document.getElementById('entryForm').addEventListener('submit', function(e){
   e.preventDefault();
+  userName = (document.getElementById('userNameInput').value||'').trim();
   const dateVal = document.getElementById('birthDate').value;
   if(!dateVal) return;
   const [yy,mm,dd] = dateVal.split('-').map(Number);
@@ -1358,11 +1490,12 @@ document.getElementById('entryForm').addEventListener('submit', function(e){
   renderPlate(saju);
   const counts = renderBalance(saju);
   const dayMasterElem = renderMaster(saju);
-  renderDaily(dayMasterElem);
+  renderDaily(dayMasterElem, dayStemI);
   renderProTable(saju,dayStemI);
   const strengthRes = renderStrength(saju,dayMasterElem,dayStemI);
   renderCombos(saju);
   const structureItems = renderStructures(saju,dayStemI);
+  renderStory(nm(), saju, dayStemI, dayMasterElem, counts, strengthRes, structureItems);
   renderSummary(saju,dayStemI,dayMasterElem,strengthRes,structureItems);
   renderFlow(saju,dayStemI,dayMasterElem,birthDate,selectedGender);
   renderLuck(saju,counts,strengthRes,dayMasterElem);

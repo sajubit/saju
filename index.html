@@ -120,7 +120,7 @@
   /* ---- tabs ---- */
   .tabbar{display:flex; gap:8px; margin:22px 0 18px; background:#fff1f6; padding:6px; border-radius:16px;}
   .tab-btn{
-    flex:1; border:none; background:transparent; padding:11px; border-radius:12px; font-size:15px; color:var(--ink-soft);
+    flex:1 1 30%; min-width:96px; border:none; background:transparent; padding:11px 6px; border-radius:12px; font-size:14px; color:var(--ink-soft);
   }
   .tab-btn.active{background:#fff; color:var(--pink-deep); box-shadow:0 4px 12px -4px rgba(0,0,0,.12);}
   .tabpane{display:none;}
@@ -224,7 +224,7 @@
 
         <div class="field-row">
           <div class="field" style="flex:0 0 100%;">
-            <label>성별 (표시용, 계산에는 영향 없어요)</label>
+            <label>성별 (대운 순행/역행 계산에 실제로 쓰여요)</label>
             <div class="toggle-row" id="genderToggle">
               <button type="button" class="toggle-btn selected" data-gender="여자">여자</button>
               <button type="button" class="toggle-btn" data-gender="남자">남자</button>
@@ -261,13 +261,21 @@
       <div class="plate" id="plate"></div>
     </div>
 
-    <div class="tabbar">
+    <div class="tabbar" style="flex-wrap:wrap;">
       <button class="tab-btn active" data-tab="easy">🐰 쉬운 설명</button>
       <button class="tab-btn" data-tab="pro">📜 전문 분석</button>
+      <button class="tab-btn" data-tab="flow">📆 운의 흐름</button>
+      <button class="tab-btn" data-tab="luck">🍀 개운법</button>
+      <button class="tab-btn" data-tab="compat">💕 궁합</button>
     </div>
 
     <!-- 쉬운 설명 -->
     <div class="tabpane active" id="tab-easy">
+      <div class="card" id="summaryCard" style="background:linear-gradient(135deg,#f4d3e6,#fbd9b8); border:none;">
+        <div style="font-size:12.5px; font-weight:700; color:#6d5a9e; margin-bottom:6px;">🐰 한 줄로 먼저 요약하면</div>
+        <p id="summaryText" style="margin:0; font-size:15.5px; line-height:1.8; color:#453a5c;"></p>
+      </div>
+
       <div class="card">
         <h2>오행 균형</h2>
         <p class="section-sub">목·화·토·금·수, 다섯 기운이 얼마나 있는지 봐요.</p>
@@ -318,6 +326,74 @@
         <p class="section-sub">재생관·식상생재·관인상생 같은 상생 구조와, 군겁쟁재·재극인·상관패인 같은 상극 구조의 성립 여부예요.</p>
         <ul class="check-list" id="structureList"></ul>
       </div>
+    </div>
+
+    <!-- 운의 흐름: 대운/세운/월운 -->
+    <div class="tabpane" id="tab-flow">
+      <div class="card">
+        <h2>대운 (10년 흐름)</h2>
+        <p class="section-sub" id="daewoonSub"></p>
+        <div class="disclaimer" style="margin-top:0;">대운수는 절기 경계일을 근사값으로 계산해서 나온 값이에요. 실제 만세력과 1~2살 정도 차이가 날 수 있어요.</div>
+        <div class="pro-table-wrap">
+          <table class="pro" id="daewoonTable"></table>
+        </div>
+      </div>
+      <div class="card">
+        <h2>세운 (올해 포함 앞뒤 10년)</h2>
+        <p class="section-sub">연도별 간지와 일간과의 관계를 봐요.</p>
+        <div id="seyunList"></div>
+      </div>
+      <div class="card">
+        <h2>월운 (올해 12개월)</h2>
+        <p class="section-sub">이번 해, 달마다의 흐름이에요.</p>
+        <div id="wolyunList"></div>
+      </div>
+    </div>
+
+    <!-- 개운법 -->
+    <div class="tabpane" id="tab-luck">
+      <div class="card">
+        <h2>🍀 나에게 부족한 기운 채우기</h2>
+        <p class="section-sub" id="luckIntro"></p>
+        <div id="luckElementBox"></div>
+      </div>
+      <div class="card">
+        <h2>행운색 · 행운숫자</h2>
+        <div id="luckColorNumber"></div>
+      </div>
+      <div class="card">
+        <h2>이렇게 해보면 좋아요 / 이건 조심해요</h2>
+        <div id="luckActions"></div>
+      </div>
+      <div class="card">
+        <h2>간단 용신 추정</h2>
+        <p class="section-sub">신강신약 결과를 바탕으로 한 아주 단순화된 추정이에요. 실제 용신은 조후·격국까지 함께 봐야 해서 이것만으로 단정하지 마세요.</p>
+        <div id="yongsinBox"></div>
+      </div>
+    </div>
+
+    <!-- 궁합 -->
+    <div class="tabpane" id="tab-compat">
+      <div class="card">
+        <h2>💕 두 사람 궁합 보기</h2>
+        <p class="section-sub">상대방의 생년월일시를 넣어주세요.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="partnerDate">상대방 생년월일 (양력)</label>
+            <input type="date" id="partnerDate" min="1920-01-01" max="2026-12-31">
+          </div>
+          <div class="field">
+            <label for="partnerTime">태어난 시각</label>
+            <input type="time" id="partnerTime" value="12:00">
+          </div>
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="partnerTimeUnknown">
+          <label for="partnerTimeUnknown">상대방 태어난 시각을 몰라요</label>
+        </div>
+        <button type="button" class="cta" id="compatBtn" style="width:auto; padding:12px 22px; font-size:15px;">궁합 보기</button>
+      </div>
+      <div id="compatResult"></div>
     </div>
 
     <footer>
@@ -576,6 +652,243 @@ function relation(a,b){
 }
 
 /* ===================================================================
+   6-A. 오행 카운트 (재사용)
+=================================================================== */
+function getElementCounts(saju){
+  const counts={목:0,화:0,토:0,금:0,수:0};
+  [saju.y,saju.m,saju.d,saju.h].filter(Boolean).forEach(p=>{
+    counts[STEM_ELEM[p.stemI]]++; counts[BRANCH_ELEM[p.branchI]]++;
+  });
+  return counts;
+}
+
+/* ===================================================================
+   6-B. 대운 · 세운 · 월운
+=================================================================== */
+function getMonthBounds(date){
+  const sy=getSajuYear(date); const bounds=[];
+  for(let i=0;i<12;i++){ const [m,d]=SOLAR_BOUNDS[i]; const yy=(m===1)?sy+1:sy; bounds.push(new Date(yy,m-1,d)); }
+  bounds.push(new Date(sy+1,1,4));
+  for(let i=0;i<12;i++){ if(date>=bounds[i] && date<bounds[i+1]) return {start:bounds[i], end:bounds[i+1]}; }
+  return {start:bounds[11], end:bounds[12]};
+}
+function daewoonsuFromDays(x){
+  const q=Math.floor(x/3), r=x%3;
+  let su = r===2 ? q+1 : q;
+  if(su<=0) su=1;
+  return su;
+}
+function getDaewoonInfo(birthDate, yearStemI, gender){
+  const forward = (gender==='남자' && yearStemI%2===0) || (gender==='여자' && yearStemI%2!==0);
+  const b = getMonthBounds(birthDate);
+  const x = forward ? daysBetween(birthDate,b.end) : daysBetween(b.start,birthDate);
+  return { forward, su: daewoonsuFromDays(x) };
+}
+function buildDaewoonList(monthPillar, forward, su, count){
+  let s=monthPillar.stemI, br=monthPillar.branchI;
+  const dir = forward?1:-1;
+  const list=[];
+  for(let i=0;i<count;i++){
+    s=(s+dir+10)%10; br=(br+dir+12)%12;
+    list.push({stemI:s, branchI:br, startAge:su+i*10, endAge:su+i*10+9});
+  }
+  return list;
+}
+function getCurrentAge(birthDate){
+  const t=new Date();
+  let age = t.getFullYear() - birthDate.getFullYear();
+  const beforeBirthday = (t.getMonth()<birthDate.getMonth()) || (t.getMonth()===birthDate.getMonth() && t.getDate()<birthDate.getDate());
+  if(beforeBirthday) age--;
+  return age;
+}
+
+/* ===================================================================
+   6-C. 개운법
+=================================================================== */
+const LUCK_COLOR={목:"초록 · 연두색",화:"빨강 · 주황색",토:"노랑 · 황토색(갈색)",금:"흰색 · 은색 · 회색",수:"검정 · 남색(짙은 파랑)"};
+const LUCK_NUMBER={목:"3, 8",화:"2, 7",토:"5, 0(10)",금:"4, 9",수:"1, 6"};
+const LUCK_DO={
+  목:"화분을 키우거나 산책·등산처럼 몸을 움직이는 활동, 새로운 배움이나 계획을 시작해보기",
+  화:"사람을 만나 이야기하기, 밝은 곳에서 활동하기, 표현하고 나누는 자리를 만들어보기",
+  토:"규칙적인 생활 리듬 잡기, 저축이나 정리정돈, 신뢰를 쌓는 꾸준한 관계 만들기",
+  금:"운동이나 결단이 필요한 일 마무리하기, 원칙을 세우고 정리하는 작업",
+  수:"충분한 휴식과 독서, 명상처럼 생각을 정리하는 시간, 유연하게 상황에 맞춰보기"
+};
+const LUCK_DONT={
+  목:"너무 급하게 밀어붙이거나 계획 없이 여러 일을 동시에 벌이는 것",
+  화:"감정적으로 격해진 상태에서 바로 결정하거나 말하는 것",
+  토:"변화를 무조건 미루고 안전한 것만 고집하는 것",
+  금:"필요 이상으로 냉정하게 관계를 잘라내는 것",
+  수:"생각이 많아져 결정을 계속 미루는 것"
+};
+function pickLuckElements(counts){
+  const zero = ELEMENTS.filter(e=>counts[e]===0);
+  if(zero.length) return zero;
+  const min = Math.min(...ELEMENTS.map(e=>counts[e]));
+  return ELEMENTS.filter(e=>counts[e]===min);
+}
+
+/* ===================================================================
+   6-D. 궁합
+=================================================================== */
+function crossCombos(pA,labelA,pB,labelB){
+  const results=[];
+  STEM_COMBO.forEach(([s1,s2,elem])=>{
+    if((pA.stemI===s1&&pB.stemI===s2)||(pA.stemI===s2&&pB.stemI===s1))
+      results.push(`${labelA} ${STEMS[pA.stemI]} + ${labelB} ${STEMS[pB.stemI]} → 천간합(${elem} 기운)`);
+  });
+  BRANCH_LIUHE.forEach(([b1,b2,elem])=>{
+    if((pA.branchI===b1&&pB.branchI===b2)||(pA.branchI===b2&&pB.branchI===b1))
+      results.push(`${labelA} ${BRANCHES[pA.branchI]} + ${labelB} ${BRANCHES[pB.branchI]} → 지지 육합(${elem} 기운)`);
+  });
+  BRANCH_CHONG.forEach(([b1,b2])=>{
+    if((pA.branchI===b1&&pB.branchI===b2)||(pA.branchI===b2&&pB.branchI===b1))
+      results.push(`${labelA} ${BRANCHES[pA.branchI]} ↔ ${labelB} ${BRANCHES[pB.branchI]} → 지지 충`);
+  });
+  WONJIN.forEach(([b1,b2])=>{
+    if((pA.branchI===b1&&pB.branchI===b2)||(pA.branchI===b2&&pB.branchI===b1))
+      results.push(`${labelA} ${BRANCHES[pA.branchI]} — ${labelB} ${BRANCHES[pB.branchI]} → 원진`);
+  });
+  return results;
+}
+function analyzeCompat(sajuA,sajuB){
+  const pillarsA=[{l:'나 연주',p:sajuA.y},{l:'나 월주',p:sajuA.m},{l:'나 일주',p:sajuA.d},sajuA.h?{l:'나 시주',p:sajuA.h}:null].filter(Boolean);
+  const pillarsB=[{l:'상대 연주',p:sajuB.y},{l:'상대 월주',p:sajuB.m},{l:'상대 일주',p:sajuB.d},sajuB.h?{l:'상대 시주',p:sajuB.h}:null].filter(Boolean);
+  let combos=[];
+  pillarsA.forEach(a=>pillarsB.forEach(b=>{ combos = combos.concat(crossCombos(a.p,a.l,b.p,b.l)); }));
+
+  const elemA = STEM_ELEM[sajuA.d.stemI], elemB = STEM_ELEM[sajuB.d.stemI];
+  const dayRel = relation(elemB, elemA); // elemB가 elemA에게 미치는 관계
+  const countsA = getElementCounts(sajuA), countsB = getElementCounts(sajuB);
+  const lackA = pickLuckElements(countsA), lackB = pickLuckElements(countsB);
+  const fillsA = lackA.filter(e=>countsB[e]>0);
+  const fillsB = lackB.filter(e=>countsA[e]>0);
+
+  return {combos, dayRel, elemA, elemB, lackA, lackB, fillsA, fillsB};
+}
+
+/* ===================================================================
+   운의 흐름 / 개운법 / 궁합 렌더링
+=================================================================== */
+function renderSummary(saju,dayStemI,dayMasterElem,strengthRes,structureItems){
+  const info = DAY_MASTER_TEXT[STEMS[dayStemI]];
+  const topStruct = structureItems.find(s=>s.ok);
+  let text = `나는 <strong>${info.title.split(' · ')[0]}</strong>, ${strengthRes.verdict.split('(')[0]} 사주예요.`;
+  text += ` ${strengthRes.verdictDesc}`;
+  if(topStruct) text += ` 특히 <strong>${topStruct.name.split('(')[0]}</strong> 구조가 있어서, ${topStruct.why}`;
+  document.getElementById('summaryText').innerHTML = text;
+}
+
+function renderFlow(saju,dayStemI,dayMasterElem,birthDate,gender){
+  const yearStemI = saju.y.stemI;
+  const {forward, su} = getDaewoonInfo(birthDate, yearStemI, gender);
+  const list = buildDaewoonList(saju.m, forward, su, 8);
+  const age = getCurrentAge(birthDate);
+  const current = list.find(p=>age>=p.startAge && age<=p.endAge) || list[0];
+
+  document.getElementById('daewoonSub').innerHTML = `${gender} · ${forward?'순행':'역행'} · 첫 대운은 만 ${su}세부터 시작돼요. (현재 만 ${age}세는 <strong style="color:var(--pink-deep);">${STEMS[current.stemI]}${BRANCHES[current.branchI]}대운</strong> 구간)`;
+
+  let html = '<tr><th>나이</th>' + list.map(p=>`<th>${p.startAge}~${p.endAge}</th>`).join('') + '</tr>';
+  html += '<tr><td class="rowlabel">간지</td>' + list.map(p=>{
+    const e = STEM_ELEM[p.stemI]; const isCurrent = p===current;
+    return `<td style="${isCurrent?'background:#fbeaf3; font-weight:700;':''}"><span class="elemtag-${e}">${STEMS[p.stemI]}${BRANCHES[p.branchI]}</span></td>`;
+  }).join('') + '</tr>';
+  html += '<tr><td class="rowlabel">관계</td>' + list.map(p=>{
+    const rel = relation(STEM_ELEM[p.stemI], dayMasterElem);
+    return `<td style="font-size:11px;">${RELATION_TEXT[rel].label.split(' · ')[1]||RELATION_TEXT[rel].label}</td>`;
+  }).join('') + '</tr>';
+  document.getElementById('daewoonTable').innerHTML = html;
+
+  // 세운
+  const thisYear = new Date().getFullYear();
+  let seyunHtml='';
+  for(let y=thisYear-2; y<=thisYear+7; y++){
+    const yp = yearPillar(new Date(y,6,15));
+    const e = STEM_ELEM[yp.stemI];
+    const rel = relation(e, dayMasterElem);
+    const isNow = y===thisYear;
+    seyunHtml += `<div class="relbox" style="${isNow?'border-left-color:#e8a15c; background:#fff3e6;':''}"><strong>${y}년${isNow?' (올해)':''}</strong> · <span class="elemtag-${e}">${STEMS[yp.stemI]}${BRANCHES[yp.branchI]}</span> · ${RELATION_TEXT[rel].label} — ${RELATION_TEXT[rel].total}</div>`;
+  }
+  document.getElementById('seyunList').innerHTML = seyunHtml;
+
+  // 월운 (올해)
+  let wolyunHtml='';
+  for(let m=0;m<12;m++){
+    const d = new Date(thisYear,m,15);
+    const yp = yearPillar(d);
+    const mp = monthPillar(d, yp.stemI);
+    const e = STEM_ELEM[mp.stemI];
+    const rel = relation(e, dayMasterElem);
+    wolyunHtml += `<div class="relbox"><strong>${m+1}월</strong> · <span class="elemtag-${e}">${STEMS[mp.stemI]}${BRANCHES[mp.branchI]}</span> · ${RELATION_TEXT[rel].label}</div>`;
+  }
+  document.getElementById('wolyunList').innerHTML = wolyunHtml;
+}
+
+function GENERATES_INV(elem){ return Object.keys(GENERATES).find(k=>GENERATES[k]===elem); }
+
+function renderLuck(saju,counts,strengthRes,dayMasterElem){
+  const lacking = pickLuckElements(counts);
+  document.getElementById('luckIntro').textContent = counts[lacking[0]]===0
+    ? `사주 여덜 글자 안에 ${lacking.map(e=>ELEM_NAME[e]).join(', ')} 기운이 아예 없어요. 일상에서 이 기운을 조금씩 채워보면 균형에 도움이 될 수 있어요.`
+    : `가장 적은 기운은 ${lacking.map(e=>ELEM_NAME[e]).join(', ')}예요. (완전히 없는 건 아니지만 상대적으로 약해요)`;
+  document.getElementById('luckElementBox').innerHTML = lacking.map(e=>
+    `<div class="relbox"><strong style="color:${ELEM_COLOR[e]};">${ELEM_NAME[e]}</strong> — ${ELEM_DESC[e]}</div>`
+  ).join('');
+
+  document.getElementById('luckColorNumber').innerHTML = lacking.map(e=>
+    `<div class="relbox"><strong>${ELEM_NAME[e]}</strong> 기운 채우는 색 · 숫자<br>🎨 ${LUCK_COLOR[e]} &nbsp; 🔢 ${LUCK_NUMBER[e]}</div>`
+  ).join('');
+
+  document.getElementById('luckActions').innerHTML = lacking.map(e=>
+    `<div class="relbox">
+      <strong style="color:#4f9a4c;">${ELEM_NAME[e]} 채우려면 ✅</strong> ${LUCK_DO[e]}<br>
+      <strong style="color:#e0574a;">주의할 점 ⚠️</strong> ${LUCK_DONT[e]}
+    </div>`
+  ).join('');
+
+  let yongsinElems;
+  if(strengthRes.score<=-3){
+    yongsinElems = [dayMasterElem, GENERATES_INV(dayMasterElem)];
+    document.getElementById('yongsinBox').innerHTML = `신약한 사주라, 일간을 도와주는 <strong>${yongsinElems.map(e=>ELEM_NAME[e]).join(', ')}</strong> 기운을 용신 후보로 볼 수 있어요. (같은 오행이거나 일간을 생해주는 오행)`;
+  } else if(strengthRes.score>=3){
+    yongsinElems = [GENERATES[dayMasterElem], OVERCOMES[dayMasterElem]];
+    document.getElementById('yongsinBox').innerHTML = `신강한 사주라, 일간의 힘을 빼주는 <strong>${yongsinElems.map(e=>ELEM_NAME[e]).join(', ')}</strong> 기운을 용신 후보로 볼 수 있어요. (일간이 생해주는 오행이거나 일간이 극하는 오행)`;
+  } else {
+    document.getElementById('yongsinBox').innerHTML = `신강신약이 중화에 가까워서, 특정 오행을 크게 보강하기보다 지금의 균형을 유지하는 쪽이 유리할 수 있어요.`;
+  }
+}
+
+document.getElementById('compatBtn').addEventListener('click', ()=>{
+  const dateVal = document.getElementById('partnerDate').value;
+  if(!dateVal){ alert('상대방 생년월일을 입력해주세요.'); return; }
+  const [yy,mm,dd] = dateVal.split('-').map(Number);
+  const partnerDate = new Date(yy,mm-1,dd);
+  const unknown = document.getElementById('partnerTimeUnknown').checked;
+  let hour=12;
+  if(!unknown){ const t=document.getElementById('partnerTime').value||'12:00'; hour=parseInt(t.split(':')[0],10); }
+  const sajuB = computeSaju(partnerDate,hour,!unknown);
+  const res = analyzeCompat(window.__currentSaju, sajuB);
+
+  let html = `<div class="card">
+    <h2>일간 관계</h2>
+    <p style="font-size:14px; line-height:1.7;">나(${ELEM_NAME[res.elemA]})와 상대(${ELEM_NAME[res.elemB]})의 관계는 <strong style="color:var(--pink-deep);">${RELATION_TEXT[res.dayRel].label}</strong>이에요. ${RELATION_TEXT[res.dayRel].total}</p>
+  </div>`;
+
+  html += `<div class="card"><h2>서로 채워주는 기운</h2>`;
+  if(res.fillsA.length) html += `<p style="font-size:14px;">상대방이 내게 부족한 <strong>${res.fillsA.map(e=>ELEM_NAME[e]).join(', ')}</strong> 기운을 채워줄 수 있어요. 👍</p>`;
+  if(res.fillsB.length) html += `<p style="font-size:14px;">내가 상대에게 부족한 <strong>${res.fillsB.map(e=>ELEM_NAME[e]).join(', ')}</strong> 기운을 채워줄 수 있어요. 👍</p>`;
+  if(!res.fillsA.length && !res.fillsB.length) html += `<p style="font-size:14px; color:var(--ink-soft);">오행상으로 서로 딱 채워주는 지점은 뚜렷하지 않아요. 그래도 관계는 오행만으로 결정되지 않으니 참고만 해주세요.</p>`;
+  html += `</div>`;
+
+  html += `<div class="card"><h2>합·충 관계</h2>`;
+  if(res.combos.length===0) html += `<p style="font-size:14px; color:var(--ink-soft);">여덜 글자 사이에 뚜렷한 합이나 충이 눈에 띄지 않아요.</p>`;
+  else html += res.combos.map(c=>`<div class="relbox">${c}</div>`).join('');
+  html += `</div>`;
+
+  document.getElementById('compatResult').innerHTML = html;
+});
+
+/* ===================================================================
    렌더링
 =================================================================== */
 function glyphHTML(stemI,branchI,big){
@@ -670,6 +983,7 @@ function renderStrength(saju,dayMasterElem,dayStemI){
   document.getElementById('strengthBreakdown').innerHTML = res.breakdown.map(b=>
     `<div class="breakdown-item"><span>${b.label} · ${b.tg}</span><span style="color:${b.pts>0?'#4f9a4c':'#e0574a'};">${b.pts>0?'+':''}${b.pts}</span></div>`
   ).join('');
+  return res;
 }
 
 function renderCombos(saju){
@@ -689,6 +1003,7 @@ function renderStructures(saju,dayStemI){
   document.getElementById('structureList').innerHTML = items.map(i=>
     `<li><span class="mark ${i.ok?'yes':'no'}">${i.ok?'✅':'➖'}</span><span><strong>${i.name}</strong><br><span style="color:var(--ink-soft);">${i.why}</span></span></li>`
   ).join('');
+  return items;
 }
 
 /* ===================================================================
@@ -738,9 +1053,16 @@ document.getElementById('entryForm').addEventListener('submit', function(e){
   const dayMasterElem = renderMaster(saju);
   renderDaily(dayMasterElem);
   renderProTable(saju,dayStemI);
-  renderStrength(saju,dayMasterElem,dayStemI);
+  const strengthRes = renderStrength(saju,dayMasterElem,dayStemI);
   renderCombos(saju);
-  renderStructures(saju,dayStemI);
+  const structureItems = renderStructures(saju,dayStemI);
+  renderSummary(saju,dayStemI,dayMasterElem,strengthRes,structureItems);
+  renderFlow(saju,dayStemI,dayMasterElem,birthDate,selectedGender);
+  renderLuck(saju,counts,strengthRes,dayMasterElem);
+
+  window.__currentSaju = saju;
+  window.__currentDayMasterElem = dayMasterElem;
+  document.getElementById('compatResult').innerHTML = '';
 
   document.getElementById('screen-input').classList.remove('active');
   document.getElementById('screen-result').classList.add('active');

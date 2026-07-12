@@ -28,7 +28,58 @@
       var(--bg);
     min-height:100vh;
   }
-  .wrap{max-width:880px; margin:0 auto; padding:28px 18px 90px;}
+  .wrap{max-width:880px; margin:0 auto; padding:28px 18px 130px;}
+
+  /* ---- 홈 화면 : 히어로 ---- */
+  .hero{text-align:center; padding:18px 8px 8px;}
+  .hero-mascot{
+    width:120px; height:120px; border-radius:50%; object-fit:cover; object-position:50% 42%;
+    border:5px solid #fff; box-shadow:0 0 0 5px #e9d3f0, 0 16px 34px -12px rgba(109,90,158,.45);
+    margin-bottom:18px;
+  }
+  h1.hero-title{
+    font-size:clamp(28px,6vw,38px); color:var(--pink-deep); line-height:1.35; margin-bottom:14px;
+  }
+  p.hero-desc{font-size:15px; color:var(--ink-soft); line-height:1.7; margin-bottom:26px;}
+  button.hero-cta{
+    display:inline-block; width:auto; padding:17px 34px; font-size:17px; margin-bottom:6px;
+  }
+
+  /* ---- 서비스 카드 4개 ---- */
+  .service-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:30px 0 26px;}
+  .service-card{
+    background:#fffbf7; border:2px solid var(--line); border-radius:20px; padding:22px 14px;
+    display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center;
+    box-shadow:0 10px 24px -14px rgba(180,120,90,.2); transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .service-card:active{transform:scale(.97);}
+  .sc-icon{font-size:30px; margin-bottom:4px;}
+  .sc-title{font-family:'Do Hyeon',sans-serif; font-size:16px; color:var(--ink);}
+  .sc-desc{font-size:12px; color:var(--ink-soft); line-height:1.5;}
+
+  /* ---- 서비스 소개 ---- */
+  .about-box{
+    background:linear-gradient(135deg,#e9def5,#f4d3e6); border-radius:20px; padding:22px 22px;
+    text-align:center; color:#4a3f6b;
+  }
+  .about-box p{margin:0; font-size:14px; line-height:1.8;}
+
+  /* ---- 하단 메뉴 ---- */
+  .bottom-nav{
+    position:fixed; left:0; right:0; bottom:0; z-index:20;
+    display:flex; justify-content:space-around; align-items:center;
+    background:rgba(255,251,247,.92); backdrop-filter:blur(10px);
+    border-top:2px solid var(--line); border-radius:22px 22px 0 0;
+    padding:10px 6px calc(10px + env(safe-area-inset-bottom));
+    box-shadow:0 -10px 30px -14px rgba(150,100,140,.25);
+    max-width:880px; margin:0 auto;
+  }
+  .nav-btn{
+    flex:1; background:none; border:none; display:flex; flex-direction:column; align-items:center; gap:3px;
+    padding:6px 2px; color:var(--ink-soft); font-family:'Noto Sans KR',sans-serif; font-size:11px;
+  }
+  .nav-btn .nav-icon{font-size:19px;}
+  .nav-btn.active{color:var(--pink-deep); font-weight:700;}
   h1,h2,h3{font-family:'Do Hyeon',sans-serif; font-weight:400; margin:0;}
   a{color:var(--pink-deep);}
   button{font-family:'Do Hyeon',sans-serif; cursor:pointer;}
@@ -232,8 +283,45 @@
     <div class="logo"><img class="logo-avatar rabbit-img" alt="사주토끼"> 사주토끼 <span class="badge">BETA</span></div>
   </div>
 
+  <!-- ============ SCREEN 0 : 홈 (서비스 소개) ============ -->
+  <section class="screen active" id="screen-home">
+    <div class="hero">
+      <img class="hero-mascot rabbit-img" alt="사주토끼 캐릭터">
+      <h1 class="hero-title">내 사주를 가장<br>쉽게 읽는 방법</h1>
+      <p class="hero-desc">생년월일만 입력하면 성격, 재물운, 직업운, 연애운을<br>자세하게 분석해드려요.</p>
+      <button class="cta hero-cta" id="heroCtaBtn">✨ 무료 사주 보기</button>
+    </div>
+
+    <div class="service-grid">
+      <button class="service-card" data-target="easy">
+        <span class="sc-icon">🔮</span>
+        <span class="sc-title">평생 사주</span>
+        <span class="sc-desc">나의 성격과 타고난 그릇</span>
+      </button>
+      <button class="service-card" data-target="today">
+        <span class="sc-icon">📅</span>
+        <span class="sc-title">오늘의 운세</span>
+        <span class="sc-desc">오늘의 총운·재물·애정</span>
+      </button>
+      <button class="service-card" data-target="compat">
+        <span class="sc-icon">💕</span>
+        <span class="sc-title">궁합</span>
+        <span class="sc-desc">둘이서 보는 오행 궁합</span>
+      </button>
+      <button class="service-card" data-target="flow">
+        <span class="sc-icon">📆</span>
+        <span class="sc-title">올해 운세</span>
+        <span class="sc-desc">대운·세운·월운 흐름</span>
+      </button>
+    </div>
+
+    <div class="about-box">
+      <p>🐰 사주토끼는 명리학 계산과 AI 해설을 결합하여, 누구나 쉽게 자신의 사주를 이해할 수 있도록 만든 서비스예요.</p>
+    </div>
+  </section>
+
   <!-- ============ SCREEN 1 : 입력 ============ -->
-  <section class="screen active" id="screen-input">
+  <section class="screen" id="screen-input">
     <div class="mascot-wrap">
       <div>
         <div class="speech">생년월일과 태어난 시각만 알려주시면<br>제가 꼼꼼히 봐드릴게요 🐰✨</div>
@@ -278,7 +366,7 @@
       </form>
 
       <div class="disclaimer">
-        🐰 <strong>정직하게 말씀드려요.</strong> 이 계산기는 오호둔·오자둔 등 실제 명리학 표준 공식을 그대로 사용하고, 만세력 기준일로 검증했어요. 다만 절기 경계(입춘 등)는 근사값이라 실제와 하루 정도 차이가 날 수 있고, 신강신약·합충 판단은 여러 학파 중 널리 쓰이는 방식 하나를 기준으로 한 참고용 분석이에요. 확정적인 단정이 아니라 공부와 참고를 위한 도구로 봐주세요.
+        🐰 <strong>정직하게 말씀드려요.</strong> 이 계산기는 오호둔·오자둔 등 실제 명리학 표준 공식을 그대로 사용하고, 만세력 기준일로 검증했어요. 절기(입춘 등) 경계는 태양의 실제 위치를 천문학적으로 계산해서 1900~2050년 각 해의 정확한 절입 시각(분 단위)을 반영했어요 — 예전처럼 매년 2월 4일로 고정해두던 방식보다 훨씬 정확해요. 다만 이 계산도 공인 역서보다 몇 분 정도 오차가 있을 수 있고, 신강신약·합충 판단은 여러 학파 중 널리 쓰이는 방식 하나를 기준으로 한 참고용 분석이에요. 확정적인 단정이 아니라 공부와 참고를 위한 도구로 봐주세요.
       </div>
     </div>
   </section>
@@ -371,7 +459,7 @@
       <div class="card">
         <h2>대운 (10년 흐름)</h2>
         <p class="section-sub" id="daewoonSub"></p>
-        <div class="disclaimer" style="margin-top:0;">대운수는 절기 경계일을 근사값으로 계산해서 나온 값이에요. 실제 만세력과 1~2살 정도 차이가 날 수 있어요.</div>
+        <div class="disclaimer" style="margin-top:0;">대운수는 천문학적으로 계산한 정확한 절기 날짜를 기준으로 계산했어요. 다만 절기의 정확한 시각(분 단위)까지는 실제 역서와 몇 분 정도 차이가 있을 수 있어요.</div>
         <div class="pro-table-wrap">
           <table class="pro" id="daewoonTable"></table>
         </div>
@@ -430,7 +518,7 @@
           <label for="partnerTimeUnknown">상대방 태어난 시각을 몰라요</label>
         </div>
         <button type="button" class="cta" id="compatBtn" style="width:auto; padding:12px 22px; font-size:15px;">궁합 보기</button>
-        <div class="disclaimer">점수는 일간 관계·합충·오행 보완을 더하고 뺀 참고용 지표예요. 실제 관계는 숫자보다 서로의 태도가 훨씬 크게 좌우해요.</div>
+        <div class="disclaimer">점수는 일간 관계(35%)·띠 관계(25%)·일지 관계(25%)·오행 보완(15%) 네 가지를 가중평균한 참고용 지표예요. 그래서 매번 다양한 점수가 나오고, 100점이 나오기는 거의 불가능해요. 실제 관계는 숫자보다 서로의 태도가 훨씬 크게 좌우해요.</div>
       </div>
       <div id="compatResult"></div>
     </div>
@@ -443,6 +531,13 @@
 
 </div>
 
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-nav="home"><span class="nav-icon">🏠</span><span class="nav-label">홈</span></button>
+  <button class="nav-btn" data-nav="saju"><span class="nav-icon">🔮</span><span class="nav-label">사주</span></button>
+  <button class="nav-btn" data-nav="compat"><span class="nav-icon">💕</span><span class="nav-label">궁합</span></button>
+  <button class="nav-btn" data-nav="myresult"><span class="nav-icon">📋</span><span class="nav-label">내 결과</span></button>
+</nav>
+
 <script>
 /* =====================================================================
    마스코트 이미지 주입 (base64 1회 선언 후 모든 .rabbit-img에 적용)
@@ -451,14 +546,25 @@ const RABBIT_B64 = "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcH
 document.querySelectorAll('.rabbit-img').forEach(el=>{ el.src = 'data:image/jpeg;base64,'+RABBIT_B64; });
 const RABBIT_SRC = 'data:image/jpeg;base64,' + RABBIT_B64;
 const WHITE_RABBIT_SVG = `<svg viewBox="0 0 100 100" width="34" height="34">
-  <ellipse cx="50" cy="60" rx="34" ry="30" fill="#fff" stroke="#a8c4e0" stroke-width="5"/>
-  <ellipse cx="30" cy="24" rx="9" ry="20" fill="#fff" stroke="#a8c4e0" stroke-width="5"/>
-  <ellipse cx="70" cy="24" rx="9" ry="20" fill="#fff" stroke="#a8c4e0" stroke-width="5"/>
-  <ellipse cx="30" cy="26" rx="4" ry="11" fill="#dce8f5"/>
-  <ellipse cx="70" cy="26" rx="4" ry="11" fill="#dce8f5"/>
-  <circle cx="39" cy="58" r="4" fill="#3a5a7a"/>
-  <circle cx="61" cy="58" r="4" fill="#3a5a7a"/>
-  <ellipse cx="50" cy="68" rx="5" ry="3.5" fill="#a8c4e0"/>
+  <defs>
+    <linearGradient id="wr-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e9f0f8"/>
+    </linearGradient>
+  </defs>
+  <path d="M20 40 C6 46, 4 66, 18 74 C26 78, 34 68, 31 54 C29 46, 25 41, 20 40 Z" fill="url(#wr-body)" stroke="#a8c4e0" stroke-width="3"/>
+  <path d="M80 40 C94 46, 96 66, 82 74 C74 78, 66 68, 69 54 C71 46, 75 41, 80 40 Z" fill="url(#wr-body)" stroke="#a8c4e0" stroke-width="3"/>
+  <path d="M21 47 C13 53, 13 62, 20 67 C24 63, 25 54, 22 48 Z" fill="#d7e5f3"/>
+  <path d="M79 47 C87 53, 87 62, 80 67 C76 63, 75 54, 78 48 Z" fill="#d7e5f3"/>
+  <ellipse cx="50" cy="60" rx="33" ry="28" fill="url(#wr-body)" stroke="#a8c4e0" stroke-width="3.5"/>
+  <circle cx="39" cy="58" r="4.2" fill="#3a5a7a"/>
+  <circle cx="40.5" cy="56.3" r="1.4" fill="#fff"/>
+  <circle cx="61" cy="58" r="4.2" fill="#3a5a7a"/>
+  <circle cx="62.5" cy="56.3" r="1.4" fill="#fff"/>
+  <ellipse cx="31" cy="66" rx="4.5" ry="2.8" fill="#cfe0f2" opacity=".8"/>
+  <ellipse cx="69" cy="66" rx="4.5" ry="2.8" fill="#cfe0f2" opacity=".8"/>
+  <ellipse cx="50" cy="69" rx="4.5" ry="3.2" fill="#9fb8d4"/>
+  <path d="M46 72 Q50 75 54 72" stroke="#8aa4c2" stroke-width="1.6" fill="none" stroke-linecap="round"/>
 </svg>`;
 function duoBlock(tText,fText){
   return `<div class="duo-wrap">
@@ -496,12 +602,23 @@ const OVERCOMES={목:"토",토:"수",수:"화",화:"금",금:"목"};
 const DAY_ANCHOR=new Date(2024,0,1); // 2024-01-01 = 갑자일
 function daysBetween(a,b){ return Math.round((new Date(b.getFullYear(),b.getMonth(),b.getDate()) - new Date(a.getFullYear(),a.getMonth(),a.getDate()))/86400000); }
 function dayGanzhiIndex(date){ const d=daysBetween(DAY_ANCHOR,date); return ((d%60)+60)%60; }
-const SOLAR_BOUNDS=[[2,4],[3,5],[4,5],[5,5],[6,5],[7,7],[8,7],[9,7],[10,8],[11,7],[12,7],[1,5]];
-function getSajuYear(date){ const y=date.getFullYear(); const ipchun=new Date(y,1,4); return (date>=ipchun)?y:y-1; }
+const SOLAR_TERM_START = 1900;
+const SOLAR_TERM_DATA = [2041455,3060925,4051456,5060858,6061341,7080010,8080948,9081211,10090306,11080535,12072155,1060306,2042045,3061515,4052045,5061447,6061930,7080559,8081537,9081801,10090857,11081125,12080346,1060856,2050236,3062106,4060236,5062037,6070120,7081149,8082127,9082351,10091447,11081716,12080937,1061447,2050827,3070257,4060827,5070228,6070710,7081739,8090317,9090541,10092038,11082308,12081529,1062039,2051419,3060849,4051418,5060819,6061301,7072330,8080908,9081132,10090229,11080459,12072120,1070231,2042011,3061440,4052009,5061409,6061851,7080520,8081458,9081723,10090820,11081050,12080312,1060822,2050202,3062031,4060200,5062000,6070041,7081110,8082048,9082313,10091411,11081641,12080903,1061414,2050753,3070222,4060750,5070149,6070630,7081659,8090237,9090502,10092000,11082231,12081453,1062005,2051344,3060812,4051339,5060738,6061219,7072247,8080826,9081051,10090150,11080421,12072043,1070156,2041933,3061401,4051928,5061327,6061807,7080435,8081413,9081639,10090738,11081010,12080232,1060745,2050122,3061950,4060116,5061914,6062354,7081022,8082000,9082226,10091326,11081558,12080820,1061334,2050710,3070137,4060703,5070101,6070540,7081608,8090146,9090413,10091912,11082145,12081408,1061923,2051258,3060725,4051250,5060647,6061126,7072154,8080732,9080959,10090059,11080332,12071955,1070110,2041845,3061312,4051837,5061233,6061712,7080339,8081318,9081545,10090645,11080919,12080142,1060658,2050032,3061859,4060023,5061819,6062257,7080925,8081903,9082131,10091232,11081506,12080730,1061245,2050620,3070046,4060610,5070005,6070443,7081511,8090049,9090317,10091819,11082053,12081317,1061833,2051207,3060633,4051157,5060552,6061030,7072057,8080636,9080904,10090006,11080241,12071906,1070020,2041756,3061221,4051745,5061139,6061617,7080244,8081223,9081452,10090554,11080830,12080055,1060609,2042345,3061810,4052333,5061728,6062205,7080832,8081811,9082040,10091143,11081419,12080644,1061158,2050535,3070000,4060522,5062317,6070354,7081420,8090000,9090229,10091733,11082009,12081235,1061748,2051126,3060550,4051113,5060506,6060943,7072010,8080550,9080819,10082323,11080200,12071826,1062339,2041717,3061141,4051703,5061057,6061533,7080200,8081140,9081410,10090514,11080751,12080018,1060530,2042308,3061733,4052254,5061647,6062123,7080750,8081730,9082000,10091105,11081343,12080609,1061122,2050500,3062324,4060445,5062238,6070314,7081340,8082320,9090151,10091656,11081934,12081201,1061713,2051052,3060515,4051036,5060429,6060904,7071930,8080511,9080741,10082247,11080125,12071752,1062305,2041643,3061106,4051627,5061019,6061454,7080120,8081100,9081331,10090437,11080716,12072343,1060457,2042234,3061657,4052217,5061608,6062043,7080709,8081649,9081921,10091027,11081306,12080533,1061048,2050424,3062247,4060406,5062157,6070231,7081257,8082238,9090109,10091616,11081855,12081123,1061638,2051013,3060436,4050955,5060345,6060819,7071845,8080425,9080657,10082204,11080043,12071711,1062227,2041602,3061024,4051542,5060932,6061406,7080031,8081012,9081244,10090351,11080631,12072259,1060416,2042150,3061611,4052129,5061519,6061952,7080617,8081558,9081830,10090938,11081218,12080447,1061004,2050337,3062159,4060316,5062105,6070138,7081203,8082143,9090016,10091524,11081805,12081034,1061552,2050924,3060345,4050903,5060251,6060723,7071748,8080329,9080602,10082111,11072352,12071621,1062139,2041512,3060932,4051449,5060837,6061309,7072334,8080915,9081148,10090257,11080539,12072209,1060326,2042059,3061520,4052036,5061423,6061855,7080520,8081501,9081735,10090844,11081127,12080357,1060914,2050247,3062107,4060223,5062010,6070042,7081107,8082048,9082322,10091432,11081715,12080945,1061502,2050836,3060256,4050811,5060158,6060629,7071654,8080235,9080510,10082020,11072304,12071535,1062051,2041425,3060845,4051400,5060747,6061218,7072242,8080824,9081059,10090210,11080453,12072125,1060240,2042016,3061435,4051950,5061336,6061807,7080431,8081413,9081648,10090800,11081044,12080315,1060831,2050207,3062026,4060140,5061926,6062356,7081021,8082003,9082238,10091350,11081635,12080907,1061421,2050758,3060217,4050731,5060116,6060546,7071611,8080153,9080429,10081941,11072226,12071458,1062013,2041350,3060808,4051322,5060707,6061137,7072201,8080743,9081019,10090132,11080418,12072050,1060205,2041941,3061400,4051913,5061258,6061727,7080351,8081334,9081610,10090723,11081009,12080242,1060757,2050133,3061951,4060104,5061848,6062317,7080941,8081924,9082200,10091314,11081600,12080833,1061348,2050724,3060142,4050654,5060038,6060507,7071531,8080113,9080350,10081904,11072150,12071423,1061939,2041315,3060732,4051244,5060627,6061056,7072119,8080702,9080939,10090053,11080340,12072013,1060130,2041904,3061322,4051833,5061216,6061644,7080307,8081250,9081527,10090641,11080929,12080202,1060720,2050053,3061910,4060021,5061803,6062231,7080854,8081837,9082114,10091229,11081517,12080751,1061309,2050642,3060058,4050609,5052350,6060418,7071441,8080023,9080301,10081816,11072104,12071339,1061858,2041229,3060646,4051156,5060537,6061004,7072026,8080609,9080847,10090003,11080251,12071926,1060046,2041817,3061233,4051742,5061123,6061549,7080212,8081155,9081433,10090549,11080838,12080113,1060633,2050004,3061819,4052329,5061709,6062135,7080758,8081740,9082019,10091136,11081425,12080700,1061220,2050551,3060006,4050515,5052255,6060321,7071343,8072326,9080205,10081723,11072012,12071248,1061808,2041139,3060554,4051102,5060442,6060907,7071929,8080512,9080752,10082310,11080200,12071836,1052356,2041727,3061142,4051650,5061029,6061454,7080116,8081100,9081340,10090458,11080749,12080025,1060544,2042316,3061731,4052238,5061617,6062042,7080704,8081647,9081928,10091046,11081338,12080615,1061133,2050506,3052320,4050427,5052206,6060230,7071253,8072236,9080117,10081636,11071928,12071205,1061723,2041056,3060510,4051017,5060355,6060820,7071842,8080425,9080707,10082226,11080118,12071756,1052313,2041647,3061101,4051608,5060945,6061410,7080032,8081015,9081257,10090417,11080710,12072347,1060504,2042239,3061653,4052159,5061536,6062000,7080622,8081606,9081847,10091008,11081301,12080539,1061056,2050431,3052244,4050350,5052127,6060150,7071212,8072156,9080038,10081559,11071852,12071131,1061648,2041022,3060435,4050941,5060317,6060741,7071802,8080346,9080629,10082150,11080044,12071722,1052239,2041614,3061027,4051532,5060908,6061331,7072352,8080936,9081219,10090340,11080634,12072313,1060431,2042205,3061617,4052122,5061457,6061920,7080541,8081525,9081808,10090930,11081224,12080503,1061022,2050355,3052207,4050311,5052046,6060108,7071130,8072114,9072357,10081519,11071814,12071053,1061612,2040945,3060356,4050900,5060234,6060656,7071717,8080301,9080544,10082107,11080002,12071642,1052202,2041533,3060945,4051448,5060822,6061243,7072304,8080848,9081132,10090255,11080550,12072230,1060351,2042121,3061532,4052035,5061408,6061829,7080450,8081434,9081718,10090841,11081137,12080418,1060939,2050309,3052119,4050222,5051955,6060015,7071036,8072020,9072304,10081428,11071724,12071005,1061527,2040856,3060306,4050808,5060141,6060601,7071621,8080206,9080450,10082014,11072311,12071552,1052114,2041443,3060853,4051355,5060727,6061147,7072207,8080751,9081036,10090201,11080458,12072139,1060301,2042031,3061440,4051941,5061313,6061733,7080352,8081337,9081622,10090748,11081046,12080327,1060849,2050219,3052028,4050129,5051900,6052319,7070939,8071924,9072209,10081335,11071634,12070915,1061437,2040807,3060216,4050717,5060047,6060506,7071526,8080111,9080357,10081923,11072222,12071505,1052025,2041356,3060805,4051305,5060636,6061054,7072114,8080659,9080946,10090112,11080412,12072054,1060215,2041946,3061355,4051855,5061225,6061643,7080303,8081248,9081535,10090702,11081002,12080245,1060805,2050137,3051946,4050045,5051815,6052233,7070852,8071838,9072125,10081253,11071553,12070836,1061356,2040728,3060137,4050636,5060005,6060423,7071442,8080028,9080315,10081843,11072144,12071428,1051947,2041320,3060728,4051227,5060556,6061013,7072033,8080619,9080906,10090034,11080335,12072019,1060139,2041912,3061320,4051818,5061146,6061604,7080223,8081209,9081457,10090625,11080927,12080211,1060730,2050103,3051911,4050009,5051737,6052154,7070813,8071759,9072047,10081216,11071518,12070802,1061322,2040655,3060102,4050559,5052327,6060344,7071402,8072349,9080237,10081806,11072108,12071353,1051913,2041245,3060652,4051149,5060516,6060933,7071951,8080537,9080826,10082356,11080258,12071943,1060104,2041835,3061242,4051738,5061105,6061521,7080139,8081125,9081414,10090544,11080847,12080132,1060654,2050024,3051831,4042327,5051653,6052108,7070727,8071713,9072002,10081132,11071435,12070721,1061244,2040613,3060019,4050514,5052240,6060255,7071313,8072259,9080149,10081719,11072023,12071309,1051832,2041201,3060606,4051101,5060426,6060841,7071859,8080445,9080735,10082306,11080210,12071856,1060020,2041748,3061153,4051648,5061013,6061427,7080045,8081031,9081321,10090453,11080757,12080043,1060608,2042335,3051740,4042234,5051559,6052012,7070630,8071617,9071907,10081039,11071344,12070631,1061155,2040523,3052327,4050421,5052145,6060158,7071216,8072202,9080053,10081626,11071931,12071218,1051743,2041110,3060515,4051008,5060331,6060744,7071802,8080349,9080639,10082213,11080119,12071806,1052330,2041658,3061102,4051555,5060918,6061331,7072348,8080935,9081227,10090401,11080707,12072355,1060518,2042247,3051651,4042143,5051506,6051919,7070536,8071523,9071815,10080949,11071256,12070544,1061107,2040437,3052240,4050332,5052055,6060107,7071124,8072112,9080004,10081538,11071846,12071134,1051657,2041027,3060430,4050922,5060244,6060656,7071713,8080301,9080553,10082128,11080036,12071725,1052247,2041618,3061021,4051513,5060834,6061246,7072303,8080851,9081143,10090319,11080627,12072316,1060438,2042209,3051612,4042103,5051425,6051836,7070453,8071441,9071734,10080910,11071219,12070508,1061030,2040401,3052204,4050255,5052015,6060027,7071043,8072031,9072325,10081501,11071810,12071100,1051621,2040953,3060355,4050846,5060206,6060617,7071634,8080222,9080515,10082052,11080001,12071651,1052213,2041544,3060947,4051436,5060756,6061207,7072224,8080811,9081105,10090242,11080552,12072242,1060405,2042135,3051537,4042027,5051346,6051757,7070413,8071401,9071655,10080832,11071142,12070433,1060956,2040326,3052127,4050216,5051935,6052345,7071001,8071949,9072244,10081421,11071732,12071023,1051547,2040915,3060317,4050805,5060124,6060533,7071549,8080137,9080432,10082010,11072320,12071612,1052136,2041504,3060905,4051353,5060711,6061120,7072136,8080724,9081019,10090157,11080508,12072200,1060325,2042053,3051453,4041941,5051258,6051707,7070322,8071310,9071605,10080744,11071056,12070348,1060914,2040240,3052040,4050128,5051844,6052253,7070908,8071856,9072152,10081331,11071643,12070935,1051501,2040828,3060227,4050714,5060031,6060438,7071454,8080042,9080337,10081917,11072230,12071522,1052049,2041415,3060814,4051300,5060617,6061024,7072039,8080627,9080923,10090104,11080417,12072109,1060236,2042002,3051401,4041847,5051203,6051610,7070225,8071213,9071510,10080651,11071004,12070257,1060824,2040150,3051949,4050034,5051749,6052156,7070811,8071800,9072057,10081238,11071552,12070845,1051412,2040738,3060137,4050622,5052337,6060344,7071358,8072347,9080244,10081826,11072140,12071434,1052000,2041327,3060726,4051211,5060525,6060931,7071946,8080535,9080832,10090015,11080330,12072024,1060149,2041917,3051315,4041800,5051114,6051520,7070135,8071124,9071422,10080604,11070920,12070214,1060739,2040108,3051906,4042350,5051704,6052110,7070724,8071713,9072011,10081155,11071510,12070805,1051330,2040659,3060057,4050540,5052254,6060300,7071314,8072303,9080202,10081745,11072102,12071357,1051921,2041251,3060648,4051132,5060444,6060850,7071904,8080454,9080752,10082336,11080253,12071948,1060112,2041842,3051240,4041723,5051035,6051440,7070054,8071044,9071343,10080527,11070844,12070140,1060704,2040034,3051831,4042314,5051626,6052031,7070644,8071634,9071933,10081118,11071435,12070731,1051256,2040625,3060022,4050504,5052216,6060220,7071234,8072224,9080123,10081708,11072026,12071322,1051847,2041216,3060613,4051054,5060406,6060810,7071823,8080413,9080713,10082258,11080216,12071913,1060038,2041806,3051202,4041644,5050954,6051358,7070011,8071001,9071301,10080447,11070805,12070102,1060629,2032356,3051751,4042232,5051542,6051946,7070559,8071549,9071849,10081035,11071354,12070651,1051218,2040544,3052340,4050420,5052130,6060133,7071145,8072135,9080036,10081622,11071941,12071239,1051807,2041132,3060527,4051007,5060316,6060719,7071731,8080321,9080622,10082209,11080129,12071826,1052355,2041720,3051114,4041554,5050903,6051305,7062317,8070907,9071208,10080356,11070715,12070013,1060543,2032307,3051701,4042140,5051449,6051850,7070503,8071453,9071754,10080942,11071302,12070601,1051130,2040454,3052248,4050327,5052035,6060036,7071048,8072038,9072340,10081528,11071849,12071148,1051717,2041042,3060436,4050914,5060221,6060622,7071634,8080224,9080527,10082115,11080037,12071736,1052305,2041630,3051023,4041501,5050808,6051209,7062221,8070811,9071114,10080303,11070625,12062324,1060453,2032218,3051612,4042049,5051356,6051756,7070408,8071359,9071702,10080851,11071214,12070514,1051042,2040408,3052201,4050238,5051944,6052344,7070956,8071947,9072250,10081440,11071803,12071103,1051631,2040958,3060351,4050827,5060133,6060533,7071545,8080136,9080440,10082030,11072354,12071654,1052221,2041549,3050941,4041418,5050723,6051123,7062135,8070726,9071030,10080221,11070545,12062245,1060412,2032140,3051533,4042008,5051314,6051713,7070325,8071316,9071620,10080812,11071136,12070437,1051003,2040332,3052124,4050200,5051904,6052303,7070915,8071906,9072211,10081403,11071727,12071029,1051555,2040923,3060315,4050751,5060055,6060454,7071505,8080057,9080401,10081954,11072319,12071620,1052147,2041515,3050907,4041342,5050646,6051044,7062055,8070647,9070952,10080144,11070510,12062211,1060339,2032106,3051458,4041932,5051236,6051634,7070245,8071236,9071541,10080734,11071100,12070402,1050930,2040257,3052048,4050122,5051825,6052222,7070833,8071825,9072130,10081324,11071650,12070952,1051521,2040847,3060237,4050711,5060013,6060411,7071421,8080013,9080318,10081912,11072238,12071541,1052111,2041436,3050826,4041259,5050601,6050958,7062008,8070600,9070906,10080100,11070427,12062130,1060300,2032024,3051414,4041847,5051148,6051544,7070155,8071146,9071452,10080647,11071014,12070317,1050848,2040212,3052001,4050034,5051735,6052130,7070740,8071732,9072039,10081234,11071601,12070905,1051436,2040759,3060149,4050620,5052321,6060316,7071326,8072318,9080225,10081820,11072148,12071452,1052024,2041346,3050735,4041207,5050507,6050902,7061911,8070503,9070810,10080006,11070335,12062039,1060211,2031934,3051322,4041753,5051053,6051448,7070057,8071049,9071357,10080553,11070922,12070227,1050758,2040121,3051910,4042340,5051639,6052034,7070643,8071635,9071943,10081140,11071510,12070815,1051346,2040709,3060058,4050528,5052227,6060221,7071230,8072222,9080131,10081728,11072058,12071403,1051934,2041258,3050646,4041116,5050414,6050808,7061818,8070410,9070719,10072317,11070247,12061953,1060123,2031848,3051236,4041705,5051003,6051357,7070006,8070959,9071308,10080506,11070837,12070143,1050713,2040038,3051826,4042255,5051553,6051946,7070555,8071548,9071857,10081056,11071428,12070734,1051303];
+const SOLAR_BOUNDS=[[2,4],[3,5],[4,5],[5,5],[6,5],[7,7],[8,7],[9,7],[10,8],[11,7],[12,7],[1,5]]; // 표 범위 밖일 때만 쓰는 근사 fallback
+function getSolarTermDate(year, idx){
+  if(year>=SOLAR_TERM_START && year<=SOLAR_TERM_START+150){
+    const code = SOLAR_TERM_DATA[(year-SOLAR_TERM_START)*12+idx];
+    const month=Math.floor(code/1000000), day=Math.floor(code/10000)%100, hour=Math.floor(code/100)%100, minute=code%100;
+    return new Date(year, month-1, day, hour, minute);
+  }
+  const [m,d] = SOLAR_BOUNDS[idx];
+  return new Date(year, m-1, d); // 표 범위(1900~2050) 밖: 고정 날짜 근사값으로 대체
+}
+function getSajuYear(date){ const y=date.getFullYear(); const ipchun=getSolarTermDate(y,0); return (date>=ipchun)?y:y-1; }
 function getMonthIndex(date){
   const sy=getSajuYear(date); const bounds=[];
-  for(let i=0;i<12;i++){ const [m,d]=SOLAR_BOUNDS[i]; const yy=(m===1)?sy+1:sy; bounds.push(new Date(yy,m-1,d)); }
-  bounds.push(new Date(sy+1,1,4));
+  for(let i=0;i<12;i++){ const yy=(i===11)?sy+1:sy; bounds.push(getSolarTermDate(yy,i)); }
+  bounds.push(getSolarTermDate(sy+1,0));
   for(let i=0;i<12;i++){ if(date>=bounds[i] && date<bounds[i+1]) return i; }
   return 11;
 }
@@ -518,8 +635,9 @@ function hourPillar(dayStemI,hour){
   const firstStemI=firstStemMap[dayStemI%5];
   return {stemI:(firstStemI+branchI)%10, branchI};
 }
-function computeSaju(date,hour,includeHour){
-  const y=yearPillar(date); const m=monthPillar(date,y.stemI); const d=dayPillar(date);
+function computeSaju(date,hour,minute,includeHour){
+  const preciseDT = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, minute||0);
+  const y=yearPillar(preciseDT); const m=monthPillar(preciseDT,y.stemI); const d=dayPillar(date);
   const h=includeHour?hourPillar(d.stemI,hour):null;
   return {y,m,d,h};
 }
@@ -771,8 +889,8 @@ function getElementCounts(saju){
 =================================================================== */
 function getMonthBounds(date){
   const sy=getSajuYear(date); const bounds=[];
-  for(let i=0;i<12;i++){ const [m,d]=SOLAR_BOUNDS[i]; const yy=(m===1)?sy+1:sy; bounds.push(new Date(yy,m-1,d)); }
-  bounds.push(new Date(sy+1,1,4));
+  for(let i=0;i<12;i++){ const yy=(i===11)?sy+1:sy; bounds.push(getSolarTermDate(yy,i)); }
+  bounds.push(getSolarTermDate(sy+1,0));
   for(let i=0;i<12;i++){ if(date>=bounds[i] && date<bounds[i+1]) return {start:bounds[i], end:bounds[i+1]}; }
   return {start:bounds[11], end:bounds[12]};
 }
@@ -855,6 +973,15 @@ function crossCombos(pA,labelA,pB,labelB){
   });
   return results;
 }
+function branchPairScore(bA,bB){
+  if(BRANCH_LIUHE.some(([x,y])=> (bA===x&&bB===y)||(bA===y&&bB===x))) return 90;
+  if(SAMHAP.some(g=>g.branches.includes(bA)&&g.branches.includes(bB)) && bA!==bB) return 82;
+  if(BRANCH_CHONG.some(([x,y])=>(bA===x&&bB===y)||(bA===y&&bB===x))) return 30;
+  if(WONJIN.some(([x,y])=>(bA===x&&bB===y)||(bA===y&&bB===x))) return 38;
+  if((bA===0&&bB===3)||(bA===3&&bB===0)) return 35;
+  if(bA===bB) return 62;
+  return 55;
+}
 function analyzeCompat(sajuA,sajuB){
   const pillarsA=[{l:'나 연주',p:sajuA.y},{l:'나 월주',p:sajuA.m},{l:'나 일주',p:sajuA.d},sajuA.h?{l:'나 시주',p:sajuA.h}:null].filter(Boolean);
   const pillarsB=[{l:'상대 연주',p:sajuB.y},{l:'상대 월주',p:sajuB.m},{l:'상대 일주',p:sajuB.d},sajuB.h?{l:'상대 시주',p:sajuB.h}:null].filter(Boolean);
@@ -868,20 +995,21 @@ function analyzeCompat(sajuA,sajuB){
   const fillsA = lackA.filter(e=>countsB[e]>0);
   const fillsB = lackB.filter(e=>countsA[e]>0);
 
-  // 궁합 점수 산출 (0~100, 투명한 가산/감산 방식)
-  const scoreBreakdown = [];
-  let score = RELATION_SCORE[dayRel].total;
-  scoreBreakdown.push({label:'일간 관계 기본점', pts: RELATION_SCORE[dayRel].total});
-  combos.forEach(c=>{
-    let pts = 0, label = c;
-    if(c.includes('천간합')||c.includes('육합')) pts = 8;
-    else if(c.includes('충')) pts = -10;
-    else if(c.includes('원진')) pts = -6;
-    if(pts!==0){ score += pts; scoreBreakdown.push({label, pts}); }
-  });
-  if(fillsA.length){ score += fillsA.length*5; scoreBreakdown.push({label:`상대가 당신의 부족오행(${fillsA.map(e=>ELEM_NAME[e]).join(',')}) 보완`, pts: fillsA.length*5}); }
-  if(fillsB.length){ score += fillsB.length*5; scoreBreakdown.push({label:`당신이 상대 부족오행(${fillsB.map(e=>ELEM_NAME[e]).join(',')}) 보완`, pts: fillsB.length*5}); }
-  score = Math.max(0, Math.min(100, Math.round(score)));
+  // 궁합 점수: 전통적으로 가장 많이 보는 4가지 요소를 가중평균 (덧셈식 점수 폭주를 막기 위함)
+  const dayMasterScore = RELATION_SCORE[dayRel].total;
+  const yearBranchScore = branchPairScore(sajuA.y.branchI, sajuB.y.branchI);
+  const dayBranchScore = branchPairScore(sajuA.d.branchI, sajuB.d.branchI);
+  const fillScore = Math.max(0, Math.min(100, 50 + 12*(fillsA.length+fillsB.length)));
+
+  const weights = [
+    {label:'일간 관계 (성격·기운의 궁합)', score: dayMasterScore, weight:0.35},
+    {label:'띠 관계 (연지·연지)', score: yearBranchScore, weight:0.25},
+    {label:'일지 관계 (일지·일지)', score: dayBranchScore, weight:0.25},
+    {label:'오행 보완 관계', score: fillScore, weight:0.15},
+  ];
+  const rawScore = weights.reduce((sum,w)=>sum+w.score*w.weight, 0);
+  const score = Math.max(0, Math.min(100, Math.round(rawScore)));
+  const scoreBreakdown = weights.map(w=>({label:`${w.label} · ${w.score}점`, pts: Math.round(w.score*w.weight)}));
 
   return {combos, dayRel, elemA, elemB, lackA, lackB, fillsA, fillsB, score, scoreBreakdown};
 }
@@ -983,9 +1111,9 @@ document.getElementById('compatBtn').addEventListener('click', ()=>{
   const [yy,mm,dd] = dateVal.split('-').map(Number);
   const partnerDate = new Date(yy,mm-1,dd);
   const unknown = document.getElementById('partnerTimeUnknown').checked;
-  let hour=12;
-  if(!unknown){ const t=document.getElementById('partnerTime').value||'12:00'; hour=parseInt(t.split(':')[0],10); }
-  const sajuB = computeSaju(partnerDate,hour,!unknown);
+  let hour=12, minute=0;
+  if(!unknown){ const t=document.getElementById('partnerTime').value||'12:00'; const parts=t.split(':'); hour=parseInt(parts[0],10); minute=parseInt(parts[1],10)||0; }
+  const sajuB = computeSaju(partnerDate,hour,minute,!unknown);
   const res = analyzeCompat(window.__currentSaju, sajuB);
 
   const scoreCap = res.score>=80?'꽤 잘 맞는 조합이에요':res.score>=60?'무난하게 잘 맞는 편이에요':res.score>=40?'서로 노력이 필요한 조합이에요':'결이 많이 다른 조합이에요, 그만큼 배울 점도 많을 수 있어요';
@@ -1001,7 +1129,7 @@ document.getElementById('compatBtn').addEventListener('click', ()=>{
     <p style="font-size:14px; line-height:1.7;">당신(${ELEM_NAME[res.elemA]})과 상대(${ELEM_NAME[res.elemB]})의 관계는 <strong style="color:var(--pink-deep);">${RELATION_TEXT[res.dayRel].label}</strong>이에요. ${RELATION_TEXT[res.dayRel].total}</p>
   </div>`;
 
-  html += `<div class="card"><h2>점수 breakdown</h2>`;
+  html += `<div class="card"><h2>점수 산출 근거</h2>`;
   html += res.scoreBreakdown.map(b=>`<div class="breakdown-item"><span>${b.label}</span><span style="color:${b.pts>0?'#4f9a4c':'#e0574a'};">${b.pts>0?'+':''}${b.pts}</span></div>`).join('');
   html += `</div>`;
 
@@ -1011,7 +1139,7 @@ document.getElementById('compatBtn').addEventListener('click', ()=>{
   if(!res.fillsA.length && !res.fillsB.length) html += `<p style="font-size:14px; color:var(--ink-soft);">오행상으로 서로 딱 채워주는 지점은 뚜렷하지 않아요. 그래도 관계는 오행만으로 결정되지 않으니 참고만 해주세요.</p>`;
   html += `</div>`;
 
-  html += `<div class="card"><h2>합·충 관계</h2>`;
+  html += `<div class="card"><h2>참고 · 여덜 글자 전체 합충</h2><p style="font-size:12.5px; color:var(--ink-soft); margin-top:-6px;">위 점수에는 반영되지 않은 추가 참고 정보예요.</p>`;
   if(res.combos.length===0) html += `<p style="font-size:14px; color:var(--ink-soft);">여덜 글자 사이에 뚜렷한 합이나 충이 눈에 띄지 않아요.</p>`;
   else html += res.combos.map(c=>`<div class="relbox">${c}</div>`).join('');
   html += `</div>`;
@@ -1146,6 +1274,53 @@ function renderStructures(saju,dayStemI){
 /* ===================================================================
    화면 전환 & 폼 처리
 =================================================================== */
+function setActiveNav(navKey){
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.nav===navKey));
+}
+function showScreen(screenName, navKey){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+screenName).classList.add('active');
+  if(navKey) setActiveNav(navKey);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goToTab(tabName){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tabName));
+  document.querySelectorAll('.tabpane').forEach(p=>p.classList.toggle('active', p.id==='tab-'+tabName));
+}
+let pendingTarget = null; // 아직 사주를 안 계산했을 때, 결과가 나오면 자동으로 열어줄 탭
+function handleServiceEntry(target, navKey){
+  const realTarget = target==='today' ? 'easy' : target; // 오늘의 운세는 쉬운설명 탭 안에 있어요
+  if(window.__currentSaju){
+    showScreen('result', navKey);
+    if(realTarget) goToTab(realTarget);
+    if(target==='today'){
+      setTimeout(()=>{ const el=document.getElementById('todayStrip'); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); }, 150);
+    }
+  } else {
+    pendingTarget = realTarget;
+    showScreen('input', navKey);
+  }
+}
+document.getElementById('heroCtaBtn').addEventListener('click', ()=> handleServiceEntry('easy','saju'));
+document.querySelectorAll('.service-card').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    const target = card.dataset.target;
+    handleServiceEntry(target, target==='compat' ? 'compat' : 'saju');
+  });
+});
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const key = btn.dataset.nav;
+    if(key==='home') showScreen('home','home');
+    else if(key==='saju') handleServiceEntry('easy','saju');
+    else if(key==='compat') handleServiceEntry('compat','compat');
+    else if(key==='myresult'){
+      if(window.__currentSaju) showScreen('result','myresult');
+      else { pendingTarget=null; showScreen('input','myresult'); }
+    }
+  });
+});
+
 let selectedGender = '여자';
 document.getElementById('genderToggle').addEventListener('click', e=>{
   const btn = e.target.closest('.toggle-btn'); if(!btn) return;
@@ -1154,17 +1329,11 @@ document.getElementById('genderToggle').addEventListener('click', e=>{
 });
 
 document.querySelectorAll('.tab-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.tabpane').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-  });
+  btn.addEventListener('click', ()=> goToTab(btn.dataset.tab));
 });
 
 document.getElementById('backBtn').addEventListener('click', ()=>{
-  document.getElementById('screen-result').classList.remove('active');
-  document.getElementById('screen-input').classList.add('active');
+  showScreen('input','saju');
 });
 
 document.getElementById('entryForm').addEventListener('submit', function(e){
@@ -1174,12 +1343,13 @@ document.getElementById('entryForm').addEventListener('submit', function(e){
   const [yy,mm,dd] = dateVal.split('-').map(Number);
   const birthDate = new Date(yy,mm-1,dd);
   const unknown = document.getElementById('timeUnknown').checked;
-  let hour = 12;
+  let hour = 12, minute = 0;
   if(!unknown){
     const timeVal = document.getElementById('birthTime').value || '12:00';
-    hour = parseInt(timeVal.split(':')[0],10);
+    const parts = timeVal.split(':');
+    hour = parseInt(parts[0],10); minute = parseInt(parts[1],10)||0;
   }
-  const saju = computeSaju(birthDate,hour,!unknown);
+  const saju = computeSaju(birthDate,hour,minute,!unknown);
   const dayStemI = saju.d.stemI;
 
   document.getElementById('resultTitle').textContent = `${STEMS[dayStemI]}${BRANCHES[saju.d.branchI]}일주의 사주명식`;
@@ -1201,9 +1371,9 @@ document.getElementById('entryForm').addEventListener('submit', function(e){
   window.__currentDayMasterElem = dayMasterElem;
   document.getElementById('compatResult').innerHTML = '';
 
-  document.getElementById('screen-input').classList.remove('active');
-  document.getElementById('screen-result').classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
+  const target = pendingTarget; pendingTarget = null;
+  showScreen('result', target==='compat' ? 'compat' : 'myresult');
+  if(target) goToTab(target);
 });
 </script>
 </body>

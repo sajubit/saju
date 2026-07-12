@@ -9,87 +9,110 @@
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#fdf1e7; --bg2:#f4d3e6; --card:#fffbf7;
-    --ink:#453a5c; --ink-soft:#8d81a3;
-    --pink:#c39bd0; --pink-deep:#6d5a9e;
-    --peach:#fbd9b8; --mint:#f0b46a; --lavender:#d1bbe2; --sky:#a585c8;
+    --bg:#f1ebfb; --bg2:#e6d9f7; --card:#fffdfb;
+    --ink:#241b47; --ink-soft:#79709e;
+    --pink:#b48ee0; --pink-deep:#6b3fd4;
+    --peach:#fbd9b8; --mint:#7c4fe0; --lavender:#d7c3ef; --sky:#a585c8;
     --gold:#e8a15c;
     --wood:#7cb87a; --fire:#f28b82; --earth:#dcaa5e; --metal:#a99fc2; --water:#7c96dd;
-    --line:#ecdcea;
+    --line:#e4d8f7;
     --radius:22px;
   }
   *{box-sizing:border-box;}
   body{
     margin:0; font-family:'Noto Sans KR',sans-serif; color:var(--ink);
     background:
-      radial-gradient(circle at 10% 6%, #cdb6e6 0%, transparent 42%),
-      radial-gradient(circle at 92% 10%, #f2bfe0 0%, transparent 40%),
-      radial-gradient(circle at 82% 88%, #fbd9b8 0%, transparent 42%),
-      var(--bg);
+      radial-gradient(circle at 22% 18%, rgba(255,255,255,.9) 0%, transparent 0.6%),
+      radial-gradient(circle at 68% 12%, rgba(255,255,255,.9) 0%, transparent 0.5%),
+      radial-gradient(circle at 78% 32%, rgba(255,255,255,.8) 0%, transparent 0.5%),
+      radial-gradient(circle at 15% 45%, rgba(255,255,255,.8) 0%, transparent 0.5%),
+      radial-gradient(circle at 12% 8%, #cdb6e6 0%, transparent 42%),
+      radial-gradient(circle at 92% 10%, #e6c3ea 0%, transparent 40%),
+      radial-gradient(circle at 82% 88%, #d9c6f2 0%, transparent 45%),
+      linear-gradient(160deg, #ede3fb 0%, #e6d6f5 55%, #dcc9f0 100%);
     min-height:100vh;
   }
-  .wrap{max-width:880px; margin:0 auto; padding:28px 18px 130px;}
+  .wrap{max-width:880px; margin:0 auto; padding:20px 18px 130px;}
 
   /* ---- 홈 화면 : 히어로 ---- */
-  .hero{text-align:center; padding:18px 8px 8px;}
+  .hero{text-align:center; padding:22px 8px 8px; position:relative;}
   .hero-mascot{
-    width:120px; height:120px; border-radius:50%; object-fit:cover; object-position:50% 42%;
-    border:5px solid #fff; box-shadow:0 0 0 5px #e9d3f0, 0 16px 34px -12px rgba(109,90,158,.45);
-    margin-bottom:18px;
+    width:170px; height:170px; border-radius:50%; object-fit:cover; object-position:50% 42%;
+    border:7px solid #fff; box-shadow:0 0 0 8px rgba(180,142,224,.35), 0 0 60px 10px rgba(180,142,224,.35), 0 20px 40px -14px rgba(107,63,212,.4);
+    margin-bottom:26px;
   }
   h1.hero-title{
-    font-size:clamp(28px,6vw,38px); color:var(--pink-deep); line-height:1.35; margin-bottom:14px;
+    font-size:clamp(30px,6.4vw,40px); color:var(--ink); line-height:1.3; margin-bottom:16px; font-weight:400;
   }
-  p.hero-desc{font-size:15px; color:var(--ink-soft); line-height:1.7; margin-bottom:26px;}
+  h1.hero-title .accent{color:var(--pink-deep);}
+  p.hero-desc{font-size:15px; color:var(--ink-soft); line-height:1.7; margin-bottom:28px;}
   button.hero-cta{
-    display:inline-block; width:auto; padding:17px 34px; font-size:17px; margin-bottom:6px;
+    display:flex; align-items:center; justify-content:center; gap:8px; width:100%; max-width:460px; margin:0 auto 6px;
+    padding:19px 34px; font-size:17px; background:linear-gradient(135deg,#8355e6,#5b2fc4); box-shadow:0 14px 30px -10px rgba(91,47,196,.55);
   }
+  button.hero-cta .chev{margin-left:2px;}
 
   /* ---- 서비스 카드 4개 ---- */
-  .service-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:30px 0 26px;}
+  .service-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:28px 0 22px;}
   .service-card{
-    background:#fffbf7; border:2px solid var(--line); border-radius:20px; padding:22px 14px;
-    display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center;
-    box-shadow:0 10px 24px -14px rgba(180,120,90,.2); transition:transform .15s ease, box-shadow .15s ease;
+    background:var(--card); border:none; border-radius:20px; padding:18px 14px;
+    display:flex; align-items:center; gap:10px; text-align:left;
+    box-shadow:0 10px 26px -16px rgba(107,63,212,.28); transition:transform .15s ease, box-shadow .15s ease;
   }
   .service-card:active{transform:scale(.97);}
-  .sc-icon{font-size:30px; margin-bottom:4px;}
-  .sc-title{font-family:'Do Hyeon',sans-serif; font-size:16px; color:var(--ink);}
-  .sc-desc{font-size:12px; color:var(--ink-soft); line-height:1.5;}
+  .sc-tile{
+    width:42px; height:42px; border-radius:13px; flex-shrink:0; font-size:20px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tile-a{background:linear-gradient(135deg,#4a3179,#2c1c52); color:#fff;}
+  .tile-b{background:#e9defa; color:#6b3fd4;}
+  .tile-c{background:#fbdcec;}
+  .tile-d{background:#dbe7fb; color:#3f5fc4;}
+  .sc-text{display:flex; flex-direction:column; gap:3px; flex:1; min-width:0;}
+  .sc-title{font-family:'Do Hyeon',sans-serif; font-size:15px; color:var(--ink);}
+  .sc-desc{font-size:11.5px; color:var(--ink-soft); line-height:1.4;}
+  .sc-chev{color:#c9bfe6; flex-shrink:0;}
 
   /* ---- 서비스 소개 ---- */
   .about-box{
-    background:linear-gradient(135deg,#e9def5,#f4d3e6); border-radius:20px; padding:22px 22px;
+    background:linear-gradient(135deg,#efe6fb,#f6ddef); border-radius:20px; padding:20px 22px;
     text-align:center; color:#4a3f6b;
   }
-  .about-box p{margin:0; font-size:14px; line-height:1.8;}
+  .about-box p{margin:0; font-size:13.5px; line-height:1.8;}
 
   /* ---- 하단 메뉴 ---- */
   .bottom-nav{
     position:fixed; left:0; right:0; bottom:0; z-index:20;
     display:flex; justify-content:space-around; align-items:center;
-    background:rgba(255,251,247,.92); backdrop-filter:blur(10px);
-    border-top:2px solid var(--line); border-radius:22px 22px 0 0;
-    padding:10px 6px calc(10px + env(safe-area-inset-bottom));
-    box-shadow:0 -10px 30px -14px rgba(150,100,140,.25);
+    background:rgba(255,253,251,.94); backdrop-filter:blur(10px);
+    border-top:none; border-radius:24px 24px 0 0;
+    padding:12px 6px calc(10px + env(safe-area-inset-bottom));
+    box-shadow:0 -14px 34px -16px rgba(91,47,196,.3);
     max-width:880px; margin:0 auto;
   }
   .nav-btn{
-    flex:1; background:none; border:none; display:flex; flex-direction:column; align-items:center; gap:3px;
-    padding:6px 2px; color:var(--ink-soft); font-family:'Noto Sans KR',sans-serif; font-size:11px;
+    flex:1; background:none; border:none; display:flex; flex-direction:column; align-items:center; gap:4px;
+    padding:6px 2px; color:#c7bfdc; font-family:'Noto Sans KR',sans-serif; font-size:11px;
   }
-  .nav-btn .nav-icon{font-size:19px;}
+  .nav-btn .nav-icon{font-size:20px; filter:grayscale(1) opacity(.55);}
   .nav-btn.active{color:var(--pink-deep); font-weight:700;}
+  .nav-btn.active .nav-icon{filter:none;}
   h1,h2,h3{font-family:'Do Hyeon',sans-serif; font-weight:400; margin:0;}
   a{color:var(--pink-deep);}
   button{font-family:'Do Hyeon',sans-serif; cursor:pointer;}
 
   /* ---- top bar ---- */
-  .topbar{display:flex; align-items:center; gap:10px; margin-bottom:22px;}
-  .logo{display:flex; align-items:center; gap:8px; font-size:22px; color:var(--pink-deep);}
+  .topbar{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:26px;}
+  .logo{display:flex; align-items:center; gap:8px; font-size:19px; font-weight:700; color:var(--ink);}
   .logo .badge{
     font-family:'IBM Plex Mono',monospace; font-size:10px; background:var(--mint); color:#fff;
-    padding:3px 9px; border-radius:20px; letter-spacing:.04em;
+    padding:3px 10px; border-radius:20px; letter-spacing:.04em;
+  }
+  .topbar-actions{display:flex; align-items:center; gap:8px;}
+  .icon-btn{
+    width:38px; height:38px; border-radius:50%; border:none; background:#ffffffb0;
+    display:flex; align-items:center; justify-content:center; color:var(--ink);
+    box-shadow:0 4px 14px -6px rgba(107,63,212,.25);
   }
 
   /* ---- mascot ---- */
@@ -155,7 +178,7 @@
   button.cta{
     width:100%; background:linear-gradient(135deg,var(--pink),var(--pink-deep)); color:#fff; border:none;
     padding:16px; border-radius:16px; font-size:17px; letter-spacing:.02em;
-    box-shadow:0 10px 22px -8px rgba(255,110,160,.55);
+    box-shadow:0 10px 22px -8px rgba(107,63,212,.55);
   }
   button.cta:active{transform:translateY(1px);}
   button.ghost{
@@ -298,37 +321,45 @@
 
   <div class="topbar">
     <div class="logo"><img class="logo-avatar rabbit-img" alt="사주토끼"> 사주토끼 <span class="badge">BETA</span></div>
+    <div class="topbar-actions">
+      <button class="icon-btn" aria-label="알림" type="button">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="프로필" type="button">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      </button>
+    </div>
   </div>
 
   <!-- ============ SCREEN 0 : 홈 (서비스 소개) ============ -->
   <section class="screen active" id="screen-home">
     <div class="hero">
       <img class="hero-mascot rabbit-img" alt="사주토끼 캐릭터">
-      <h1 class="hero-title">내 사주를 가장<br>쉽게 읽는 방법</h1>
+      <h1 class="hero-title">내 사주를 가장<br><span class="accent">쉽게 읽는 방법</span></h1>
       <p class="hero-desc">생년월일만 입력하면 성격, 재물운, 직업운, 연애운을<br>자세하게 분석해드려요.</p>
-      <button class="cta hero-cta" id="heroCtaBtn">✨ 무료 사주 보기</button>
+      <button class="cta hero-cta" id="heroCtaBtn"><span>✨ 무료 사주 보기</span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
     </div>
 
     <div class="service-grid">
       <button class="service-card" data-target="easy">
-        <span class="sc-icon">🔮</span>
-        <span class="sc-title">평생 사주</span>
-        <span class="sc-desc">나의 성격과 타고난 그릇</span>
+        <span class="sc-tile tile-a">🔮</span>
+        <span class="sc-text"><span class="sc-title">평생 사주</span><span class="sc-desc">나의 성격과 타고난 그릇</span></span>
+        <svg class="sc-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <button class="service-card" data-target="today">
-        <span class="sc-icon">📅</span>
-        <span class="sc-title">오늘의 운세</span>
-        <span class="sc-desc">오늘의 총운·재물·애정</span>
+        <span class="sc-tile tile-b">📅</span>
+        <span class="sc-text"><span class="sc-title">오늘의 운세</span><span class="sc-desc">오늘의 총운·재물·애정</span></span>
+        <svg class="sc-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <button class="service-card" data-target="compat">
-        <span class="sc-icon">💕</span>
-        <span class="sc-title">궁합</span>
-        <span class="sc-desc">둘이서 보는 오행 궁합</span>
+        <span class="sc-tile tile-c">💕</span>
+        <span class="sc-text"><span class="sc-title">궁합</span><span class="sc-desc">둘이서 보는 오행 궁합</span></span>
+        <svg class="sc-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <button class="service-card" data-target="flow">
-        <span class="sc-icon">📆</span>
-        <span class="sc-title">올해 운세</span>
-        <span class="sc-desc">대운·세운·월운 흐름</span>
+        <span class="sc-tile tile-d">📆</span>
+        <span class="sc-text"><span class="sc-title">올해 운세</span><span class="sc-desc">대운·세운·월운 흐름</span></span>
+        <svg class="sc-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
       </button>
     </div>
 
@@ -453,6 +484,12 @@
       <div class="card">
         <h2>명식표</h2>
         <p class="section-sub">십성·지장간·12운성·12신살까지 제가 한 번에 정리해드렸어요.</p>
+        <details class="luck-accordion">
+          <summary>💡 이 표, 쉽게 설명하면 이래요</summary>
+          <div class="luck-body">
+            <strong>천간·지지</strong>는 여러분이 이미 보신 사주 여덜 글자예요. <strong>십성(十星)</strong>은 그 여덜 글자 하나하나가 '나'(일간)를 기준으로 어떤 역할을 하는지 이름 붙인 거예요. 예를 들어 정관·편관은 '나를 통제하는 규칙과 조직', 정재·편재는 '내가 다루는 재물과 성과', 정인·편인은 '나를 도와주고 채워주는 존재', 식신·상관은 '내가 표현하고 활동하는 힘', 비견·겁재는 '나와 같은 위치의 경쟁자나 동료'를 뜻해요. <strong>지장간</strong>은 지지 하나 안에 숨어있는 여러 천간이에요. 겉으로는 '자(子)' 한 글자여도 속에는 실제로 여러 기운이 겹쳐 있다고 보는 거예요. <strong>12운성</strong>은 사람이 태어나서 자라고 늙어가는 과정(장생→목욕→관대→건록→제왕→쇠→병→사→묘→절→태→양)에 비유해서, 그 글자의 기운이 지금 얼마나 활발한지를 나타내요. '제왕'에 가까우면 힘이 절정이고 '묘·절'에 가까우면 쉬어가는 시기라는 뜻이에요. <strong>12신살</strong>은 그 해·그 달의 특정한 기운 패턴에 이름을 붙인 거예요 (예: 장성살=주도적인 힘, 역마살=이동·변화의 기운). 모든 용어를 외울 필요는 없고, "이 글자가 나에게 어떤 역할을 하는구나" 정도로만 감을 잡으셔도 충분해요. 예를 들어 명식표에 '정관'이 여러 개 보인다면, "이 사람은 규칙을 지키고 조직에 잘 적응하는 쪽으로 기운이 실려있구나" 정도로 읽으시면 돼요.
+          </div>
+        </details>
         <div class="pro-table-wrap">
           <table class="pro" id="proTable"></table>
         </div>
@@ -462,6 +499,12 @@
       <div class="card">
         <h2>신강신약</h2>
         <p class="section-sub">당신의 일간을 도와주는 힘과 힘을 빼는 힘을 제가 비교해봤어요 (월지·일지는 2배로 계산해요).</p>
+        <details class="luck-accordion">
+          <summary>💡 신강신약, 쉽게 설명하면 이래요</summary>
+          <div class="luck-body">
+            사람을 '나'(일간)라고 생각하면, 사주의 나머지 일곱 글자는 나를 도와주는 친구들과 나에게 일을 시키거나 힘을 빼가는 사람들로 나뉘어요. <strong>비견·겁재(나와 같은 편)</strong>와 <strong>정인·편인(나를 채워주는 존재)</strong>이 많으면 '신강(身强)' — 도움을 많이 받아서 스스로 힘이 센 상태예요. 반대로 <strong>식상·재성·관성(내가 힘을 쏟아야 하는 대상들)</strong>이 많으면 '신약(身弱)' — 힘을 빼가는 쪽이 많아서 스스로 버텨야 하는 상태예요. 신강하다고 무조건 좋고 신약하다고 무조건 나쁜 게 아니에요. 신강한 사람은 혼자서도 밀어붙이는 힘이 좋지만 고집이 셀 수 있고, 신약한 사람은 주변의 도움을 받을 때 오히려 더 크게 성장할 수 있어요. 저희는 이 도움/소모 관계를 점수로 계산해서, 점수가 양수면 신강, 음수면 신약, 0 근처면 중화(균형)로 나눠서 보여드리고 있어요. 비유하자면, 신강한 사람은 '체력이 넘치는 사람'이라 스스로 일을 벌여도 잘 버티고, 신약한 사람은 '체력이 적당한 사람'이라 무리하지 않고 페이스를 조절하며 주변과 협력할 때 더 오래, 더 잘 갈 수 있어요.
+          </div>
+        </details>
         <div class="strength-box" id="strengthBox"></div>
         <div id="strengthBreakdown"></div>
       </div>
@@ -469,12 +512,24 @@
       <div class="card">
         <h2>합·충 관계</h2>
         <p class="section-sub">여덜 글자 사이에서 실제로 성립하는 합(合)과 충(沖)·형(刑)·원진을 제가 찾아봤어요.</p>
+        <details class="luck-accordion">
+          <summary>💡 합·충, 쉽게 설명하면 이래요</summary>
+          <div class="luck-body">
+            사주의 여덜 글자는 서로 가만히 있는 게 아니라 화학반응을 하듯 관계를 주고받아요. <strong>합(合)</strong>은 두 글자가 서로 끌어당겨서 하나로 뭉치는 관계예요. 사람 사이의 좋은 인연, 협력, 안정감에 비유할 수 있어요. <strong>충(沖)</strong>은 두 글자가 정반대 방향에서 서로 부딫히는 관계예요. 갑작스러운 변화, 마찰, 이동의 기운으로 봐요. <strong>원진(怨嗔)</strong>은 겉으로는 크게 부딫히지 않지만 은근하고 찜찜한 갈등이 계속되는 관계예요 — 뭔가 딱 집어 말하기 애매한데 자꾸 신경 쓰이는 관계라고 생각하시면 돼요. <strong>형(刑)</strong>은 서로 옭아매고 부담을 주는 관계로, 스트레스나 법적·규율적 문제와 자주 연결돼요. 이런 관계가 있다고 무조건 나쁜 일이 생기는 건 아니에요. 오히려 충이나 형이 있는 사람은 변화에 강하고, 위기 상황에서 더 빨리 움직이는 힘으로 나타나기도 해요. 반대로 합이 많은 사람은 관계가 안정적이지만, 너무 안주해서 변화가 필요한 순간에 오히려 늦게 움직이는 경우도 있어요. 그래서 합과 충 중 어느 쪽이 더 좋다고 할 수는 없고, 지금 내 사주에 어떤 관계가 있는지를 아는 것 자체가 스스로를 이해하는 데 도움이 돼요.
+          </div>
+        </details>
         <div id="comboList"></div>
       </div>
 
       <div class="card">
         <h2>상생·상극 구조</h2>
         <p class="section-sub">재생관·식상생재·관인상생 같은 상생 구조와, 군겁쟁재·재극인·상관패인 같은 상극 구조가 있는지 제가 확인해봤어요.</p>
+        <details class="luck-accordion">
+          <summary>💡 상생·상극 구조, 쉽게 설명하면 이래요</summary>
+          <div class="luck-body">
+            오행(목화토금수)은 서로 낳아주기도 하고(상생) 서로 억누르기도 해요(상극). 십성도 마찬가지예요. <strong>재생관(재성→관성)</strong>은 "내가 낸 성과가 조직에서의 인정으로 이어진다"는 뜻이고, <strong>식상생재(식상→재성)</strong>는 "내 활동과 표현이 곧 수익으로 연결된다"는 뜻, <strong>관인상생(관성→인성)</strong>은 "조직·규율이 나에게 배움과 성장의 기회를 준다"는 뜻이에요. 이런 상생 구조가 성립하면 그 흐름이 자연스럽게 잘 풀린다는 신호예요. 반대로 <strong>군겁쟁재</strong>는 "나와 비슷한 사람들이 하나의 재물(기회)을 두고 경쟁한다"는 뜻이라 자원 분배에 신경 써야 한다는 신호이고, <strong>재극인</strong>은 "성과·재물을 좇는 마음이 배움이나 후원의 기회를 깎아먹는다"는 뜻, <strong>상관패인</strong>은 "자유롭게 표현하고 싶은 마음과 원칙·규율을 지키려는 마음이 서로 부딫힌다"는 뜻이에요. 이런 구조들은 사주 안의 '이야기 흐름'을 읽는 도구라고 생각하시면 이해가 쉬워요. 마치 도미노처럼, 한 십성이 다음 십성에 좋은 영향을 주면 상생, 방해가 되면 상극이라고 보시면 돼요. 같은 상극 구조라도 중간에 다른 글자가 끼어서 흐름을 이어주면(통관) 충돌이 완화되기도 하니, 아래 체크리스트의 '왜 성립하는지' 설명을 함께 읽어보시면 훨씬 이해가 쉬워져요.
+          </div>
+        </details>
         <ul class="check-list" id="structureList"></ul>
       </div>
     </div>
@@ -1311,18 +1366,213 @@ function renderStory(name, saju, dayStemI, dayMasterElem, counts, strengthRes, s
   const info = DAY_MASTER_TEXT[STEMS[dayStemI]];
   const metaphor = info.title.split(' · ')[1] || '';
   const tf = DAY_MASTER_TF[STEMS[dayStemI]];
-  const html = `
-    <details class="story-accordion" open>
+
+  const pillars=[];
+  if(saju.y) pillars.push({label:'연주',stemI:saju.y.stemI,branchI:saju.y.branchI});
+  if(saju.m) pillars.push({label:'월주',stemI:saju.m.stemI,branchI:saju.m.branchI});
+  if(saju.d) pillars.push({label:'일주',stemI:saju.d.stemI,branchI:saju.d.branchI});
+  if(saju.h) pillars.push({label:'시주',stemI:saju.h.stemI,branchI:saju.h.branchI});
+  const combos = analyzeCombos(pillars);
+  const all = getAllTenGods(saju,dayStemI);
+  const {g:tally, detail} = tallyByGroup(all);
+
+  const chapters = [
+    {icon:'✨', headline:`겉바속촉 ${info.tags[0]}, 알고 보면 ${strengthRes.verdict.split('(')[0]} '${metaphor}'`,
+     body:buildStory(name, saju, dayStemI, dayMasterElem, counts, strengthRes, structureItems)},
+    {icon:'💕', headline:buildLoveHeadline(tally, combos),
+     body:buildLoveChapter(name, dayMasterElem, tally, detail, combos, strengthRes)},
+    {icon:'📚', headline:buildStudyHeadline(tally, strengthRes),
+     body:buildStudyChapter(name, dayMasterElem, tally, detail, strengthRes)},
+    {icon:'💼', headline:buildJobHeadline(tally, structureItems),
+     body:buildJobChapter(name, dayMasterElem, tally, detail, structureItems, strengthRes)},
+    {icon:'🧳', headline:buildJobChangeHeadline(tally, detail),
+     body:buildJobChangeChapter(name, dayMasterElem, tally, detail, strengthRes)},
+  ];
+
+  const html = chapters.map((c,i)=>`
+    <details class="story-accordion" ${i===0?'open':''}>
       <summary>
-        <span class="story-spark">✨</span>
-        <span class="story-title">겉바속촉 ${info.tags[0]}, 알고 보면 ${strengthRes.verdict.split('(')[0]} ${metaphor}</span>
+        <span class="story-spark">${c.icon}</span>
+        <span class="story-title">${c.headline}</span>
         <span class="story-chevron">▾</span>
       </summary>
-      <div class="story-body">${buildStory(name, saju, dayStemI, dayMasterElem, counts, strengthRes, structureItems)}</div>
-    </details>
-    ${duoBlock(tf.t, tf.f)}
-  `;
+      <div class="story-body">${c.body}</div>
+    </details>`).join('') + duoBlock(tf.t, tf.f);
   document.getElementById('storyBox').innerHTML = html;
+}
+
+/* ---- 십성 집계 헬퍼 ---- */
+function getAllTenGods(saju,dayStemI){
+  const all=[];
+  if(saju.y){ all.push(tenGod(dayStemI,saju.y.stemI)); all.push(tenGodOfBranch(dayStemI,saju.y.branchI)); }
+  if(saju.m){ all.push(tenGod(dayStemI,saju.m.stemI)); all.push(tenGodOfBranch(dayStemI,saju.m.branchI)); }
+  if(saju.d){ all.push(tenGodOfBranch(dayStemI,saju.d.branchI)); }
+  if(saju.h){ all.push(tenGod(dayStemI,saju.h.stemI)); all.push(tenGodOfBranch(dayStemI,saju.h.branchI)); }
+  return all;
+}
+function tallyByGroup(all){
+  const g={비겁:0,식상:0,재성:0,관성:0,인성:0};
+  const detail={비견:0,겁재:0,식신:0,상관:0,정재:0,편재:0,정관:0,편관:0,정인:0,편인:0};
+  all.forEach(tg=>{
+    detail[tg]=(detail[tg]||0)+1;
+    if(tg==='비견'||tg==='겁재') g.비겁++;
+    else if(tg==='식신'||tg==='상관') g.식상++;
+    else if(tg==='정재'||tg==='편재') g.재성++;
+    else if(tg==='정관'||tg==='편관') g.관성++;
+    else if(tg==='정인'||tg==='편인') g.인성++;
+  });
+  return {g, detail};
+}
+
+/* ---- 챕터 2 : 연애운 ---- */
+function buildLoveHeadline(tally, combos){
+  const hasWonjin = combos.some(c=>c.type==='원진');
+  const hasLiuhe = combos.some(c=>c.type==='지지 육합'||c.type==='삼합'||c.type==='반합');
+  if(tally.관성>=2) return `누구보다 신중하게 마음을 여는, '단단한 성벽' 같은 사랑`;
+  if(tally.재성>=2) return `표현이 서툴러도 마음은 이미 다 준 '숨은 로맨티스트'`;
+  if(hasWonjin) return `가까운 사이일수록 오히려 조심스러워지는 '고슴도치'형 연애`;
+  if(hasLiuhe) return `한 번 맺은 인연은 오래 이어가는 '뚝심 있는' 사랑`;
+  if(tally.식상>=2) return `표현이 풍부해서 먼저 다가가는 게 어렵지 않은 '오픈형' 연애`;
+  return `천천히, 그러나 진심으로 스며드는 사랑`;
+}
+function buildLoveChapter(name, dayMasterElem, tally, detail, combos, strengthRes){
+  const hasWonjin = combos.filter(c=>c.type==='원진');
+  const hasLiuhe = combos.filter(c=>c.type==='지지 육합'||c.type==='삼합'||c.type==='반합');
+  let p1 = `연애에서 ${name}의 패턴을 사주로 보면, 재성(재물·이성을 상징하기도 해요)이 ${detail.정재+detail.편재}개, 관성(책임감·안정 지향)이 ${detail.정관+detail.편관}개, 식상(표현력·매력 어필)이 ${detail.식신+detail.상관}개 자리하고 있어요. `;
+  if(tally.관성>=2){
+    p1 += `관성이 두 개 이상으로 뚜렷하게 있는 편이라, 가볍게 만나기보다는 서로에 대한 확신이 생겨야 마음을 여는 신중한 스타일이에요. 한번 마음을 주면 쉽게 흔들리지 않고, 관계에 책임감을 갖고 임하는 편이에요.`;
+  } else if(tally.재성>=2){
+    p1 += `재성이 두 개 이상 자리잡고 있어서, 상대를 챙기고 배려하는 마음이 자연스럽게 우러나오는 편이에요. 표현이 화려하지 않아도 행동으로 마음을 보여주는 쪽이라, 상대가 나중에서야 그 진심을 알아채는 경우가 많아요.`;
+  } else if(tally.식상>=2){
+    p1 += `식상이 두 개 이상으로 활발한 편이라, 감정 표현이 풍부하고 매력을 어필하는 데 어려움이 적은 편이에요. 대화나 유머로 분위기를 이끌면서 자연스럽게 호감을 쌓아가는 타입이에요.`;
+  } else {
+    p1 += `어느 한쪽으로 크게 치우치지 않아서, 연애에서도 상황과 상대에 따라 유연하게 태도를 바꾸는 편이에요.`;
+  }
+
+  let p2 = `${ELEM_DESC[dayMasterElem]}을 지닌 일간이라, 연애할 때도 이 기운이 은근히 드러나요.`;
+  if(dayMasterElem==='화'||dayMasterElem==='목') p2 += ` 감정이 앞서고 표현이 적극적인 편이라, 좋아하는 마음을 숨기기 어려워하는 쪽이에요.`;
+  else if(dayMasterElem==='수') p2 += ` 감정의 폭이 깊고 넓어서, 한번 빠지면 깊이 몰입하지만 겉으로는 잘 드러내지 않는 편이에요.`;
+  else if(dayMasterElem==='금') p2 += ` 관계에서도 원칙과 기준이 뚜렷해서, 신뢰가 쌓이기 전까지는 거리를 두는 편이에요.`;
+  else p2 += ` 안정감을 중요하게 여겨서, 관계의 속도가 빠르기보다는 차분하게 쌓아가는 걸 편하게 느껴요.`;
+
+  let p3 = '';
+  if(hasWonjin.length){
+    p3 = `다만 지지에 원진 관계(${hasWonjin[0].text.split(' — ')[0]})가 있어서, 가까워질수록 오히려 서운함이나 오해가 잦아지는 패턴이 있을 수 있어요. 이건 상대가 잘못해서가 아니라, 서로 다른 방식으로 애정을 표현하다 생기는 엇박자에 가까워요. 대화로 서로의 표현 방식을 확인하는 습관이 큰 도움이 돼요.`;
+  } else if(hasLiuhe.length){
+    p3 = `게다가 지지에 ${hasLiuhe[0].text.split(' — ')[0]} 관계가 있어서, 인연이 한 번 맺어지면 쉽게 흔들리지 않고 오래 이어지는 힘이 있어요. ${name}은 관계를 급하게 시작하는 타입이 아니라서, 오히려 이런 안정적인 구조가 잘 맞아요.`;
+  } else {
+    p3 = `사주 안에 연애와 관련해 특별히 강한 충돌 구조는 보이지 않아서, 무난하게 관계를 이어갈 수 있는 편이에요. 다만 그만큼 스스로 적극적으로 다가가는 노력이 관계의 속도를 좌우할 수 있어요.`;
+  }
+
+  const p4 = strengthRes.score<=-3
+    ? `신약한 사주다 보니 연애에서도 상대에게 많이 맞춰주는 편일 수 있어요. 하지만 관계는 한쪽만 애쓰면 오래가기 어려워요. ${name}도 원하는 걸 편하게 말할 수 있는 관계를 만나는 게 훨씬 중요해요.`
+    : `스스로 중심을 잘 잡는 편이라, 관계에서도 끌려다니기보다 본인의 속도를 지키는 쪽이 ${name}에게는 더 자연스러워요.`;
+
+  const p5 = `연애운이 좋은 시기는 '운의 흐름' 탭의 월운에서 애정운 점수가 높게 나오는 달을 참고하면 돼요. 다만 타이밍이 좋다고 저절로 좋은 사람이 나타나는 건 아니에요. ${name}이 먼저 마음을 여는 만큼 인연의 폭도 넓어진다는 걸 기억해주세요.`;
+
+  return [p1,p2,p3,p4,p5].map(p=>`<p>${p}</p>`).join('');
+}
+
+/* ---- 챕터 3 : 학업운 ---- */
+function buildStudyHeadline(tally, strengthRes){
+  if(tally.인성>=2) return `한 번 몰입하면 끝까지 파고드는 '집중형 학자'`;
+  if(strengthRes.score<=-3) return `혼자보다 좋은 스승·좋은 환경을 만났을 때 빛나는 학습형`;
+  if(tally.식상>=2) return `외워서 익히기보다 몸으로 부딫히며 배우는 '실전형'`;
+  return `필요할 때 몰아서 해내는 '스퍼트형' 학습자`;
+}
+function buildStudyChapter(name, dayMasterElem, tally, detail, strengthRes){
+  let p1 = `학업운은 명리학에서 보통 인성(印星, 배움과 수용력을 상징해요)을 중심으로 봐요. ${name}의 사주에는 인성이 ${tally.인성}개 있어요.`;
+  if(tally.인성>=2){
+    p1 += ` 인성이 두 개 이상으로 튼튼하게 자리잡고 있어서, 새로운 개념을 받아들이고 이해하는 속도가 빠른 편이에요. 특히 혼자 책이나 자료를 파고들며 익히는 방식이 잘 맞고, 한번 흥미를 느낀 분야는 깊이 있게 파고드는 몰입력이 강점이에요.`;
+  } else if(tally.인성===1){
+    p1 += ` 인성이 하나 있어서, 학습 능력 자체는 있지만 꾸준히 유지하려면 스스로 동기를 자주 점검해줘야 하는 편이에요.`;
+  } else {
+    p1 += ` 인성이 뚜렷하게 보이지 않아서, 이론적으로 차근차근 쌓아가는 공부보다는 직접 해보면서 감으로 익히는 방식이 ${name}에게 더 잘 맞을 수 있어요.`;
+  }
+
+  let p2 = `신강신약으로 보면 ${name}은 ${strengthRes.verdict}이에요.`;
+  if(strengthRes.score<=-3){
+    p2 += ` 신약한 사주는 혼자 힘으로 밀어붙이기보다, 좋은 선생님이나 스터디 그룹, 잘 맞는 학습 환경을 만났을 때 실력이 확 오르는 경우가 많아요. ${name}에게 맞는 환경을 찾는 것 자체가 전략이 될 수 있어요.`;
+  } else if(strengthRes.score>=3){
+    p2 += ` 신강한 사주는 자기주도적인 학습에 강해요. 남이 짜준 계획보다 스스로 세운 목표와 방식으로 공부할 때 훨씬 효율이 좋은 편이에요.`;
+  } else {
+    p2 += ` 균형이 잡힌 편이라 어떤 학습 방식이든 크게 무리 없이 적응하는 타입이에요.`;
+  }
+
+  const p3 = tally.식상>=2
+    ? `식상이 ${tally.식상}개로 활발한 편이라, 가만히 앉아 외우는 것보다 직접 말하고 써보고 발표하면서 익히는 방식이 훨씬 잘 맞아요. 토론이나 스터디처럼 표현하며 배우는 환경을 찾아보면 좋아요.`
+    : `차분하게 자기만의 속도로 쌓아가는 학습이 ${name}에게는 스트레스가 적은 방식이에요. 남과 비교하기보다 자신의 이전 기록과 비교하는 게 동기부여에 더 도움이 될 수 있어요.`;
+
+  const p4 = `12운성으로 봤을 때 일지의 상태(전문 분석 탭에서 확인 가능해요)가 '건록'이나 '제왕'에 가까우면 실행력이 강한 학습형이고, '태'나 '양'에 가까우면 준비 기간이 길게 필요한 편이에요. ${name}의 정확한 상태는 명식표에서 직접 확인해보시면 이 설명이 훨씬 더 잘 맞아떨어질 거예요.`;
+
+  return [p1,p2,p3,p4].map(p=>`<p>${p}</p>`).join('');
+}
+
+/* ---- 챕터 4 : 직장운 ---- */
+function buildJobHeadline(tally, structureItems){
+  const jaeSaengGwan = structureItems.find(s=>s.name.startsWith('재생관')&&s.ok);
+  if(tally.관성>=2) return `조직 안에서 존재감을 드러내는 '믿음직한 인재'`;
+  if(jaeSaengGwan) return `성과가 곧 신뢰로 이어지는 '실속파' 직장인`;
+  if(tally.식상>=2) return `틀에 갇히기보다 스스로 판을 짜는 '자유기획자'형`;
+  return `묵묵히 자기 몫을 해내는 '꾸준함'의 아이콘`;
+}
+function buildJobChapter(name, dayMasterElem, tally, detail, structureItems, strengthRes){
+  let p1 = `직장운·직업운은 관성(官星, 조직·직위를 상징)과 재성(財星, 성과·수입을 상징)을 함께 봐요. ${name}의 사주에는 관성이 ${tally.관성}개, 재성이 ${tally.재성}개 있어요.`;
+  if(tally.관성>=2){
+    p1 += ` 관성이 뚜렷하게 자리잡고 있어서, 조직 생활 자체에 잘 적응하는 편이에요. 규칙과 체계가 있는 환경에서 오히려 안정감을 느끼고, 맡은 역할에 책임감 있게 임하는 모습이 주변에 신뢰를 줘요.`;
+  } else if(tally.관성===1){
+    p1 += ` 관성이 하나 있어서, 조직 안에서도 무난하게 지내지만 지나치게 규칙에 얽매이는 환경은 답답하게 느낄 수 있어요.`;
+  } else {
+    p1 += ` 관성이 뚜렷하지 않은 편이라, 위계와 규율이 강한 조직보다는 자율성이 있는 환경에서 훨씬 잘 풀리는 타입이에요.`;
+  }
+
+  const jaeSaengGwan = structureItems.find(s=>s.name.startsWith('재생관')&&s.ok);
+  let p2 = '';
+  if(jaeSaengGwan){
+    p2 = `게다가 재성이 관성을 생해주는 <strong>재생관</strong> 구조가 실제로 성립하고 있어요. 이건 ${name}이 낸 성과나 실적이 조직 내 신뢰나 지위로 자연스럽게 이어지는 흐름이라는 뜻이에요. 눈에 보이는 결과를 내는 일에서 특히 강점을 발휘할 수 있어요.`;
+  } else if(tally.식상>=2){
+    p2 = `식상이 ${tally.식상}개로 활발한 편이라, 정해진 매뉴얼을 따르기보다 스스로 아이디어를 내고 새로운 방식을 시도하는 일에서 두각을 나타내요. 기획·창작·영업처럼 표현력과 기획력이 필요한 직무가 잘 맞을 수 있어요.`;
+  } else {
+    p2 = `특별히 두드러지는 상생 구조는 없지만, 그만큼 어느 직무에서든 무리 없이 적응할 수 있는 균형잡힌 사주예요.`;
+  }
+
+  const p3 = strengthRes.score>=3
+    ? `신강한 사주라 스스로 판단하고 밀어붙이는 힘이 있어요. 지시받는 것보다 주도적으로 일을 벌이는 위치, 예를 들어 팀을 이끄는 역할이나 독립적인 프로젝트에서 만족감이 클 수 있어요.`
+    : `신약한 사주라 혼자 모든 걸 짊어지기보다, 함께 일하는 동료나 좋은 상사를 만나는 것이 커리어에 큰 영향을 줘요. 협업이 잘 되는 조직을 고르는 것 자체가 전략이에요.`;
+
+  const p4 = `직장운이 좋은 시기는 '운의 흐름' 탭에서 직장운 점수가 높은 달·해를 참고하면 돼요. 다만 시기가 좋아도 준비가 안 되어 있으면 기회를 놓치기 쉬워요. ${name}만의 강점을 미리 정리해두면, 좋은 시기가 왔을 때 훨씬 빠르게 움직일 수 있어요.`;
+
+  return [p1,p2,p3,p4].map(p=>`<p>${p}</p>`).join('');
+}
+
+/* ---- 챕터 5 : 이직운 ---- */
+function buildJobChangeHeadline(tally, detail){
+  if(detail.상관>=1) return `마음속에 사직서 한 장은 품고 사는 타입`;
+  if(detail.겁재>=1) return `경쟁 속에서 오히려 발동 걸리는 승부사`;
+  if(tally.관성>=2) return `쉽게 흔들리지 않는 '한 우물' 스타일`;
+  return `이직보다 '내 자리에서 승부'가 어울리는 안정추구형`;
+}
+function buildJobChangeChapter(name, dayMasterElem, tally, detail, strengthRes){
+  let p1 = `이직·변화에 대한 태도는 주로 식상(변화·활동성)과 비겁(경쟁·독립성)으로 짐작해볼 수 있어요. ${name}의 사주에는 상관이 ${detail.상관}개, 겁재가 ${detail.겁재}개 있어요.`;
+  if(detail.상관>=1){
+    p1 += ` 상관이 있는 편이라, 지금 자리가 답답하게 느껴지는 순간이 오면 그 생각이 오래 가는 편이에요. 다만 상관은 '변화를 원하는 마음'일 뿐이지 '무조건 옮겨야 한다'는 뜻은 아니에요. 감정이 앞선 결정보다, 구체적인 대안을 먼저 마련해두고 움직이는 게 훨씬 안전해요.`;
+  } else if(detail.겁재>=1){
+    p1 += ` 겁재가 있어서, 경쟁이 심한 환경일수록 오히려 승부욕이 발동되는 편이에요. 안주하기보다 새로운 도전을 통해 스스로를 증명하고 싶어하는 마음이 이직의 동기가 되기도 해요.`;
+  } else if(tally.관성>=2){
+    p1 += ` 관성이 튼튼한 편이라, 웬만해서는 지금 자리를 잘 지키는 쪽이에요. 이직을 고민하더라도 충분한 확신이 생기기 전까지는 신중하게 움직이지 않는 타입이에요.`;
+  } else {
+    p1 += ` 특별히 변화를 강하게 미는 구조는 없어서, 이직은 감정적인 이유보다는 실질적인 조건(연봉, 환경 등)이 맞을 때 결정하는 편이 ${name}에게 맞아요.`;
+  }
+
+  const p2 = `앞의 '운의 흐름' 탭에서 확인한 이번 해 대운·세운의 흐름과 함께 보면 더 정확해요. 관성이나 재성의 기운이 강해지는 시기에는 자리를 지키며 인정받기 좋고, 식상이나 겁재의 기운이 강해지는 시기에는 변화나 이동에 대한 마음이 자연스럽게 커질 수 있어요.`;
+
+  const p3 = strengthRes.score<=-3
+    ? `다만 신약한 사주는 변화의 시기에 혼자 모든 결정을 떠안기보다, 믿을 만한 사람과 상의하면서 움직이는 게 훨씬 안전해요.`
+    : `신강한 사주는 결단력이 있는 만큼, 충동적인 결정만 조심하면 이직이 오히려 좋은 전환점이 될 수 있어요.`;
+
+  const p4 = `결론적으로 이직은 '지금 이 감정'보다 '몇 달 뒤의 흐름'을 보고 결정하는 게 안전해요. ${name}의 대운·세운 흐름에서 관성·재성이 강해지는 시기라면 지금 자리에서 좀 더 버텨보는 것도 좋은 전략이 될 수 있어요.`;
+
+  return [p1,p2,p3,p4].map(p=>`<p>${p}</p>`).join('');
 }
 
 function renderDaily(dayMasterElem, dayStemI){
